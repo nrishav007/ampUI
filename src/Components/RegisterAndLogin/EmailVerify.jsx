@@ -3,7 +3,9 @@ import RightView from "../RightView";
 import emailVerify from "../../Assets/emailVerify.png";
 import verifyEmailLogo from "../../Assets/verifyEmailLogo.png";
 import { Image, Text, Box, Center, Flex } from "@chakra-ui/react";
-const EmailVerify = () => {
+const EmailVerify = ({email}) => {
+  let temp=email.split("@");
+  temp=temp[0][0]+"***"+"@"+temp[1];
   return (
     <RightView image={emailVerify}>
       <Flex>
@@ -23,7 +25,7 @@ const EmailVerify = () => {
         </Center>
         <Center mt={"30px"}>
             <Text fontSize={"22px"} fontWeight={"600"} fontFamily={"poppins"} w={"500px"}>
-                A verification link has been sent to john***@gmail.com
+                A verification link has been sent to {temp}
             </Text>
         </Center>
         <Center mt={"40px"} fontSize={"20px"} lineHeight={"30px"} fontWeight={"600"} fontFamily={"poppins"}>

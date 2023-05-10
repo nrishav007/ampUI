@@ -6,6 +6,8 @@ import {
   Button,
   Flex,
   Text,
+  Center,
+  Image,
   Box,
   SimpleGrid,
   useToast,
@@ -13,66 +15,65 @@ import {
 import axios from "axios";
 const SetSound = ({ setStep, token }) => {
   const toast = useToast();
-  const back = "< Back";
   const [payload, setPayload] = useState({});
   const [sound, setSound] = useState([
     {
-      name: "Rock",
+      name: "Afrobeats",
       key: "sp1",
       active: false,
     },
     {
-      name: "Afrobeats",
+      name: "Rocks",
       key: "sp2",
       active: false,
     },
     {
-      name: "HipHop",
+      name: "Electronics",
       key: "sp3",
       active: false,
     },
     {
-      name: "Folk",
+      name: "Hiphop",
       key: "sp4",
       active: false,
     },
     {
-      name: "Rock",
+      name: "Reggea",
       key: "sp5",
       active: false,
     },
     {
-      name: "Rock",
+      name: "Folk music",
       key: "sp6",
       active: false,
     },
     {
-      name: "Afrobeats",
+      name: "House music",
       key: "sp7",
       active: false,
     },
     {
-      name: "HipHop",
+      name: "Dance music",
       key: "sp8",
       active: false,
     },
     {
-      name: "Folk",
+      name: "Tecno",
       key: "sp9",
       active: false,
     },
     {
-      name: "Rock",
+      name: "Disco",
       key: "sp10",
       active: false,
     },
     {
-      name: "Rock",
+      name: "Jazz",
       key: "sp11",
       active: false,
     },
     {
-      name: "Afrobeats",
+      name: "Pop",
       key: "sp12",
       active: false,
     },

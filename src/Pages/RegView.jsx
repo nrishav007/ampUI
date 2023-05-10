@@ -24,7 +24,7 @@ import SetupProfile from './../Components/RegisterAndLogin/SetupProfile';
 import EmailVerify from './../Components/RegisterAndLogin/EmailVerify';
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-const Register=({setStep,setToken})=>{
+const Register=({setStep,setToken,setEmail})=>{
   const [terms,setTerms]=useState(false);
   const name=useRef();
   const email=useRef();
@@ -50,13 +50,20 @@ const Register=({setStep,setToken})=>{
           else{
             payload.userType="User";
           }
+          setEmail(email.current.value);
           payload.firstName=name.current.value;
           payload.email=email.current.value;
           payload.password=password.current.value;
           axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/register-user`,payload)
           .then((res)=>{
             setToken(res.data.data.token);
-            setStep(2);
+            if(payload.userType==="User"){
+              setStep(5);
+            }
+            else{
+              setStep(2);
+            }
+            
             toast({
               title: res.data.message,
               status: 'success',
@@ -202,10 +209,11 @@ const Register=({setStep,setToken})=>{
 const RegView = () => {
   const [step,setStep]=useState(1);
   const [token,setToken]=useState("");
+  const [email,setEmail]=useState("");
   return(
     <Box>
       {
-        step===1?<Register setStep={setStep} setToken={setToken} />:step===2?<Links setStep={setStep} token={token} />:step===3?<SetSound setStep={setStep} token={token} />:step===4?<SetupProfile setStep={setStep} token={token} />:step===5?<EmailVerify setStep={setStep} />:null
+        step===1?<Register setStep={setStep} setEmail={setEmail} setToken={setToken} />:step===2?<Links setStep={setStep} token={token} />:step===3?<SetSound setStep={setStep} token={token} />:step===4?<SetupProfile setStep={setStep} token={token} />:step===5?<EmailVerify setStep={setStep} email={email} />:null
       }
     </Box>
   )

@@ -2,13 +2,12 @@ import React from "react";
 import RightView from "../RightView";
 import setup_profile from "../../Assets/setup_profile.png";
 import back from "../../Assets/back.png";
-import { Button, Flex, Input, Text, Textarea, useToast } from "@chakra-ui/react";
+import { Button, Flex, Input, Text, Textarea, useToast,Center,Image } from "@chakra-ui/react";
 import { useRef } from "react";
 import axios from "axios";
 const SetupProfile = ({setStep,token}) => {
   const djName=useRef();
   const djBio=useRef();
-  const back = "< Back";
   const toast=useToast();
   const handleProfile=()=>{
     try {
