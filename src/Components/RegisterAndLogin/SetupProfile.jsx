@@ -1,6 +1,7 @@
 import React from "react";
 import RightView from "../RightView";
 import setup_profile from "../../Assets/setup_profile.png";
+import back from "../../Assets/back.png";
 import { Button, Flex, Input, Text, Textarea, useToast } from "@chakra-ui/react";
 import { useRef } from "react";
 import axios from "axios";
@@ -44,7 +45,12 @@ const SetupProfile = ({setStep,token}) => {
   return (
     <RightView image={setup_profile}>
       <Flex justifyContent={"space-between"} pl={"150px"} pr={"10px"}>
-        <Text>{back}</Text>
+      <Flex gap={"8px"} color={"#0086FF"} onClick={()=>setStep(3)}>
+          <Center>
+          <Image h={"15px"} src={back} /></Center>
+          <Center>
+          <Text>Back</Text></Center>
+        </Flex>
         <Flex>
         <Flex gap={"2px"} fontSize={"30px"} fontWeight={"bold"}>
         <Text>A</Text>

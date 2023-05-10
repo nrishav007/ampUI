@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RightView from "../RightView";
 import links from "../../Assets/links.png";
+import back from "../../Assets/back.png";
 import {
   Button,
   Flex,
@@ -23,7 +24,6 @@ import { useRef } from "react";
 import axios from 'axios';
 const Links = ({ setStep,token }) => {
   const toast=useToast();
-  const back = "< Back";
   const [ulinks, setLinks] = useState({});
   const [social, setSocial] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -95,7 +95,12 @@ const Links = ({ setStep,token }) => {
         </ModalContent>
       </Modal>
       <Flex justifyContent={"space-between"} pl={"150px"} pr={"10px"}>
-        <Text>{back}</Text>
+        <Flex gap={"8px"} color={"#0086FF"} onClick={()=>setStep(1)}>
+          <Center>
+          <Image h={"15px"} src={back} /></Center>
+          <Center>
+          <Text>Back</Text></Center>
+        </Flex>
         <Flex>
         <Flex gap={"2px"} fontSize={"30px"} fontWeight={"bold"}>
         <Text>A</Text>

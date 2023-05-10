@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RightView from "../RightView";
 import set_sound from "../../Assets/set_sound.png";
+import back from "../../Assets/back.png";
 import {
   Button,
   Flex,
@@ -10,11 +11,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-const SetSound = ({ setStep,token }) => {
-    const toast=useToast();
+const SetSound = ({ setStep, token }) => {
+  const toast = useToast();
   const back = "< Back";
-  const [payload,setPayload]=useState({});
-  const [sound,setSound]=useState([
+  const [payload, setPayload] = useState({});
+  const [sound, setSound] = useState([
     {
       name: "Rock",
       key: "sp1",
@@ -78,67 +79,88 @@ const SetSound = ({ setStep,token }) => {
   ]);
   const handleSound = () => {
     try {
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/set-user-sound-preference`,payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }})
-          .then((res)=>{
-            setStep(4);
-            toast({
-              title: res.data.message,
-              status: 'success',
-              duration: 4000,
-              isClosable: true,
-            })
-          })
-          .catch((err)=>{
-            console.log(err);
-            toast({
-              title: err.response.data.error,
-              status: 'error',
-              duration: 4000,
-              isClosable: true,
-            })
-          })
+      axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/api/user/set-user-sound-preference`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setStep(4);
+          toast({
+            title: res.data.message,
+            status: "success",
+            duration: 4000,
+            isClosable: true,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast({
+            title: err.response.data.error,
+            status: "error",
+            duration: 4000,
+            isClosable: true,
+          });
+        });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
-  const handlePref=(i)=>{
-    const tempS=[...sound];
-    const tempP={...payload};
-    if(tempS[i].active){
-        tempS[i].active=false;
-        delete tempP[tempS[i].key];
-    }
-    else{
-        tempS[i].active=true;
-        tempP[tempS[i].key]=tempS[i].name;
+  const handlePref = (i) => {
+    const tempS = [...sound];
+    const tempP = { ...payload };
+    if (tempS[i].active) {
+      tempS[i].active = false;
+      delete tempP[tempS[i].key];
+    } else {
+      tempS[i].active = true;
+      tempP[tempS[i].key] = tempS[i].name;
     }
     setSound(tempS);
     setPayload(tempP);
     toast({
-        title: 'Preference saved',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    
-  }
+      title: "Preference saved",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
   return (
     <RightView image={set_sound}>
       <Flex justifyContent={"space-between"} pl={"150px"} pr={"10px"}>
-        <Text>{back}</Text>
+        <Flex gap={"8px"} color={"#0086FF"} onClick={() => setStep(2)}>
+          <Center>
+            <Image h={"15px"} src={back} />
+          </Center>
+          <Center>
+            <Text>Back</Text>
+          </Center>
+        </Flex>
         <Flex>
-        <Flex gap={"2px"} fontSize={"30px"} fontWeight={"bold"}>
-        <Text>A</Text>
-        <Text>M</Text>
-        <Text>P</Text>
-        </Flex>
-        <Flex ml={"2px"} direction={"column"} h={"30px"} w={"30px"} bgColor={"#0085FF"} color={"white"} mt={"7px"} pl={"5px"} fontSize={"14px"}>
-          <Text>S P</Text>
-          <Text mt={"-9px"}>OT</Text>
-        </Flex>
+          <Flex gap={"2px"} fontSize={"30px"} fontWeight={"bold"}>
+            <Text>A</Text>
+            <Text>M</Text>
+            <Text>P</Text>
+          </Flex>
+          <Flex
+            ml={"2px"}
+            direction={"column"}
+            h={"30px"}
+            w={"30px"}
+            bgColor={"#0085FF"}
+            color={"white"}
+            mt={"7px"}
+            pl={"5px"}
+            fontSize={"14px"}
+          >
+            <Text>S P</Text>
+            <Text mt={"-9px"}>OT</Text>
+          </Flex>
         </Flex>
       </Flex>
       <Flex
@@ -166,7 +188,7 @@ const SetSound = ({ setStep,token }) => {
           fontWeight={"400"}
           fontFamily={"Roboto"}
         >
-          {sound.map(({ name,active }, i) => {
+          {sound.map(({ name, active }, i) => {
             return (
               <Box
                 p={"10px 30px 10px 30px"}
