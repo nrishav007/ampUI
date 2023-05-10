@@ -1,13 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import Reg_view from './Pages/Reg_view';
-import Links from './Pages/Links';
+import AllRoutes from './Routes/AllRoutes';
 
 function App() {
   return (
     <div className="App">
-      {/* <Reg_view/> */}
-      <Links/>
+      <AllRoutes/>
     </div>
   );
 }

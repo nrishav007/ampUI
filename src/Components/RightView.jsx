@@ -6,13 +6,14 @@ import {
   } from "@chakra-ui/react";
 const RightView = ({children,image}) => {
   return (
-    <Box fontFamily={"Poppins"} fontStyle={"normal"}>
+    <Box fontFamily={"Poppins"} fontStyle={"normal"} >
       <Flex>
-        <Box w={"80%"}>
+        <Box h={"99%"} w={"90%"}>
             {children}
         </Box>
-        <Box>
-          <Image src={image} />
+        <Box h={"90%"} >
+          <Image w={"900px"} h={"635px"} src={image} />
+
         </Box>
       </Flex>
     </Box>
