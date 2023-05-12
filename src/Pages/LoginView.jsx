@@ -1,4 +1,5 @@
 import {
+  Box,
     Button,
     Center,
     Checkbox,
@@ -123,7 +124,7 @@ import { useEffect } from "react";
     }
     return (
       <RightView image={regview}>
-        <Flex justifyContent={"space-between"} pl={"150px"} pr={"10px"}>
+        <Box textAlign={"left"}>
         <Flex>
         <Flex gap={"2px"} fontSize={"30px"} fontWeight={"bold"}>
         <Text>A</Text>
@@ -135,19 +136,18 @@ import { useEffect } from "react";
           <Text mt={"-9px"}>OT</Text>
         </Flex>
         </Flex>
-        </Flex>
+      </Box>
         <Flex
           gap={"10px"}
           direction={"column"}
-          pl={"100px"}
-          pr={"150px"}
           pb={"0px"}
           textAlign={"left"}
         >
           <Text
+          mt={"150px"}
             mb={"50px"}
             fontWeight={"600"}
-            fontSize={"30px"}
+            fontSize={["15px","20px","22px","30px"]}
             lineHeight={"45px"}
           >
             Login to your profile

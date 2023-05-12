@@ -124,16 +124,10 @@ const SetSound = ({ setStep, token }) => {
     }
     setSound(tempS);
     setPayload(tempP);
-    toast({
-      title: "Preference saved",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
   };
   return (
-    <RightView image={set_sound}>
-      <Flex justifyContent={"space-between"} pl={"150px"} pr={"10px"}>
+    <RightView image={set_sound} pr={"80px"}>
+      <Flex justifyContent={"space-between"}>
         <Flex gap={"8px"} color={"#0086FF"} onClick={() => setStep(2)}>
           <Center>
             <Image h={"15px"} src={back} />
@@ -164,17 +158,9 @@ const SetSound = ({ setStep, token }) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex
-        direction={"column"}
-        pl={"100px"}
-        pr={"50px"}
-        mt={"40px"}
-        pb={"0px"}
-        gap={"40px"}
-        textAlign={"center"}
-      >
         <Text
-          mb={"20px"}
+        mt={"227px"}
+          mb={"60px"}
           fontSize={"30px"}
           fontWeight={"600"}
           lineHeight={"45px"}
@@ -183,9 +169,10 @@ const SetSound = ({ setStep, token }) => {
         </Text>
         <SimpleGrid
           fontStyle={"normal"}
-          columns={"4"}
+          columns={[1,2,2,3,3,4]}
           gap={"10px"}
-          fontSize={"17px"}
+          mb={"80px"}
+          fontSize={"18px"}
           fontWeight={"400"}
           fontFamily={"Roboto"}
         >
@@ -206,7 +193,7 @@ const SetSound = ({ setStep, token }) => {
             );
           })}
         </SimpleGrid>
-        <Flex justifyContent={"space-between"}>
+        <Flex justifyContent={"space-between"} mb={"40px"}>
           <Button
             onClick={() => setStep(4)}
             variant={"unstyled"}
@@ -225,7 +212,6 @@ const SetSound = ({ setStep, token }) => {
             Next
           </Button>
         </Flex>
-      </Flex>
     </RightView>
   );
 };

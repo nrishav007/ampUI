@@ -98,7 +98,7 @@ const Register=({setStep,setToken,setEmail})=>{
   }
   return (
     <RightView image={regview}>
-      <Box textAlign={"left"} pl={"150px"}>
+      <Box textAlign={"left"}>
         <Flex>
         <Flex gap={"2px"} fontSize={"30px"} fontWeight={"bold"}>
         <Text>A</Text>
@@ -114,16 +114,15 @@ const Register=({setStep,setToken,setEmail})=>{
       <Flex
         gap={"10px"}
         direction={"column"}
-        pl={"100px"}
-        pr={"150px"}
+
         pb={"0px"}
         textAlign={"left"}
       >
         <Text
-        mt={"20px"}
-          mb={"20px"}
+        mt={"95px"}
+          mb={"60px"}
           fontWeight={"600"}
-          fontSize={"30px"}
+          fontSize={["15px","20px","25px","30px"]}
           lineHeight={"45px"}
         >
           Let's get started
@@ -143,9 +142,10 @@ const Register=({setStep,setToken,setEmail})=>{
           </Center>
           <Text>I agree to all of terms & conditions</Text>
         </Flex>
-        <Flex justifyContent={"space-between"}>
+        <Flex justifyContent={"space-between"} gap={"10px"} direction={["column","column","column","row"]}>
         <Button
-        w={"40%"}
+        p={"0px 7px"}
+        w={["100%","100%","100%","60%"]}
         onClick={()=>handleRegister("DJ")}
           fontSize={"18px"}
           _hover={{
@@ -158,7 +158,7 @@ const Register=({setStep,setToken,setEmail})=>{
           Register as DJ
         </Button>
         <Button
-        w={"40%"}
+        w={["100%","100%","100%","60%"]}
         onClick={()=>handleRegister("User")}
           fontSize={"18px"}
           _hover={{
@@ -207,7 +207,7 @@ const Register=({setStep,setToken,setEmail})=>{
   );
 }
 const RegView = () => {
-  const [step,setStep]=useState(1);
+  const [step,setStep]=useState(2);
   const [token,setToken]=useState("");
   const [email,setEmail]=useState("");
   return(

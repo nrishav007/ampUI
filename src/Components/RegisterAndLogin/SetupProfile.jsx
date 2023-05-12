@@ -42,8 +42,8 @@ const SetupProfile = ({setStep,token}) => {
     }
   }
   return (
-    <RightView image={setup_profile}>
-      <Flex justifyContent={"space-between"} pl={"150px"} pr={"10px"}>
+    <RightView image={setup_profile} pr={"70px"}>
+      <Flex justifyContent={"space-between"}>
       <Flex gap={"8px"} color={"#0086FF"} onClick={()=>setStep(3)}>
           <Center>
           <Image h={"15px"} src={back} /></Center>
@@ -64,16 +64,15 @@ const SetupProfile = ({setStep,token}) => {
       </Flex>
       <Flex
         direction={"column"}
-        pl={"100px"}
-        pr={"150px"}
-        mt={"70px"}
+        pr={["30px","30px","60px","90px"]}
+        mt={"148px"}
         pb={"0px"}
         gap={"20px"}
         textAlign={"left"}
       >
         <Text
-          mb={"20px"}
-          fontSize={"30px"}
+          mb={"60px"}
+          fontSize={["15px","20px","22px","30px"]}
           fontWeight={"600"}
           lineHeight={"45px"}
         >
