@@ -5,7 +5,7 @@ import verifyEmailLogo from "../../Assets/verifyEmailLogo.png";
 import { Image, Text, Box, Center, Flex } from "@chakra-ui/react";
 const EmailVerify = ({email}) => {
   let temp=email.split("@");
-  temp=temp[0][0]+"***"+"@"+temp[1];
+  temp=`${temp[0][0]}${temp[0][1]}${temp[0][2]}***@${temp[1]}`;
   return (
     <RightView image={emailVerify}>
       <Flex>

@@ -17,6 +17,7 @@ const RightView = ({ children, image, pr = "150px" }) => {
           </Box>
         </Box>
         <Box
+          h={"100vh"}
           hidden={size <= 750}
           w={["0px", "0px", "50%", "50%"]}
           backgroundImage={`url(${image})`}
@@ -52,7 +53,11 @@ const RightView = ({ children, image, pr = "150px" }) => {
                   </Text>
                   <Flex>
                     <Box w={"100%"}>
-                      <Flex justifyContent={"space-between"} gap={"10px"} direction={["column","column","column","row"]}>
+                      <Flex
+                        justifyContent={"space-between"}
+                        gap={"10px"}
+                        direction={["column", "column", "column", "row"]}
+                      >
                         <Box>
                           <Text fontSize={"18px"}>Adrin Laue</Text>
                           <Text fontWeight={"normal"} fontSize={"15px"}>

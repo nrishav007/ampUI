@@ -207,7 +207,7 @@ const Register=({setStep,setToken,setEmail})=>{
   );
 }
 const RegView = () => {
-  const [step,setStep]=useState(2);
+  const [step,setStep]=useState(1);
   const [token,setToken]=useState("");
   const [email,setEmail]=useState("");
   return(
