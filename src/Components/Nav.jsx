@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconButton,
   Avatar,
   Box,
   CloseButton,
   Flex,
+  Switch,
   HStack,
   VStack,
   useColorModeValue,
@@ -34,22 +35,25 @@ import {
 } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { themeChanger } from "../Redux/AppReducer/Action";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, url: "/admin" },
-  { name: "Product", icon: FiTrendingUp, url: "/admin/product" },
-  { name: "Explore", icon: FiCompass, url: "/admin/product" },
-  { name: "Favourites", icon: FiStar, url: "/admin/product" },
-  { name: "Settings", icon: FiSettings, url: "/admin/product" },
-  { name: "Landing", icon: FiUser, url: "/admin/home" },
+  { name: "Home", icon: FiHome, url: "/dj" },
+  { name: "Booking Request", icon: FiTrendingUp, url: "/dj/book" },
+  { name: "Dj of the Week", icon: FiCompass, url: "/dj/djoftheweek" },
+  { name: "Promos", icon: FiStar, url: "/dj/djoftheweek" },
+  { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
+  { name: "Messages", icon: FiUser, url: "/dj/djoftheweek" },
 ];
-export function Nav({ children,pos }) {
+export function Dashboard({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const theme=useSelector((store)=>store.app.theme);
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
+
       />
       <Drawer
         autoFocus={false}
@@ -61,57 +65,84 @@ export function Nav({ children,pos }) {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent pos={pos} onClose={onClose} />
+          <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
+      <Box>
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box pl={{ base: 0, md: 60 }} p="4" transition="3s ease" bgColor={theme==="light"?"white":"#0A0F1B"}>
         {children}
+      </Box>
       </Box>
     </Box>
   );
 }
 
-const SidebarContent = ({ pos,onClose, ...rest }) => {
+const SidebarContent = ({ onClose, ...rest }) => {
+  const [swith,setSwith]=useState(false);
+  const dispatch=useDispatch();
+  const handleTheme=()=>{
+    setSwith(!swith);
+  }
+  useEffect(()=>{
+    if(swith){
+      dispatch(themeChanger({theme:"dark"}))
+    }
+    else{
+      dispatch(themeChanger({theme:"light"}))
+    }
+  },[swith])
+  const theme=useSelector((store)=>store.app.theme);
+  
   return (
     <Box
       transition="3s ease"
-      bgCOlor={"#F7F7F7"}
-      borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      bgColor={theme==="light"?"#F6F6F6":"#111823"}
       w={{ base: "full", md: 60 }}
-      pos="fixed"
-      h="full"
+      position="absolute"
+      left={"0"}
+      top={"0"}
+
+      zIndex={"99999"}
       {...rest}
     >
-      <Flex mb={"10px"} h="10" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex mb={"10px"} h="20" alignItems="center" mx="8" justifyContent="space-between">
+        {/* <Image h={"80px"} src={RCG_logo} /> */}
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
+        <Center>
+          <Link to={link.url}>
             <Box
               key={link.name}
               p={"20px 0px"}
+              fontSize={"16px"}
+              w={"200px"}
               mb={"10px"}
               pl={"20px"}
-              bg
+              color={theme==="light"?"#787878":"#B9B9B9"}
               borderRadius={"10px"}
-              color={pos===link.name?"rgba(0, 134, 255, 0.05)":"rgba(0, 134, 255, 20)"}
               _hover={{ color: "white", bgColor: "cyan.400" }}
-            ><Link to={link.url}>
+            >
               <Flex gap={"30px"}>
                 <Center>
                   <link.icon />
                 </Center>
                 <Center>{link.name}</Center>
               </Flex>
-              </Link>
             </Box>
-          
+          </Link>
+        </Center>
       ))}
-
-      <Box>
-
+      <Box mt={"200px"} color={theme==="light"?"#787878":"#B9B9B9"} cursor={"pointer"}>
+        <Text cursor={"pointer"}>Logout</Text>
+      </Box>
+      <Box cursor={"pointer"} mt={"20px"} mb={"20px"} >
+     <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
+     <Text mt={"-5px"} border={"1px solid black"} p={"0px 8px"} bgColor={"white"} borderRadius={"15px"}>Light</Text>
+        <Switch size={"md"} id="themeSwitch" onChange={()=>handleTheme()}/>
+        <Text mt={"-5px"} border={"0px solid black"} bgColor={"black"} color={"white"} p={"0px 8px"} borderRadius={"15px"}>Dark</Text>
+     </Flex>
       </Box>
     </Box>
   );
@@ -121,7 +152,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const toast=useToast();
+  const handleLogout=()=>{
+    // dispatch(logout(toast));
+    navigate("/");
+  }
   const user=useSelector((store)=>store.auth.user);
+  const theme=useSelector((store)=>store.app.theme);
   return (
     <Flex
       position={"sticky"}
@@ -129,10 +165,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
       zIndex={"999"}
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
-      height="50px"
+      height="20"
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
-      borderBottomWidth="1px"
+      transition="3s ease"
+      bgColor={theme==="light"?"white":"#0A0F1B"}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
@@ -200,7 +236,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -209,4 +245,4 @@ const MobileNav = ({ onOpen, ...rest }) => {
   );
 };
 
-export default Nav;
+export default Dashboard;
