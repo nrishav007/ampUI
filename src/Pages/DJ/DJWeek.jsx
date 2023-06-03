@@ -17,8 +17,8 @@ const DJWeek = () => {
         <Flex gap={"42px"}>
           <Box w={"1056px"} h={"387px"}>
             <Image src={banner} />
-            <Flex gap={"24px"} mt={"138px"} textAlign={"left"} mb={"100px"}>
-              <Box w={"50%"}>
+            <Flex direction={["column","column","row","row",]} gap={"24px"} mt={"138px"} textAlign={"left"} mb={"100px"}>
+              <Box w={["100%","100%","50%","50%"]}>
                 <Select bgColor={"#E0E0E0"}>
                   <option>Ad Duration</option>
                 </Select>
@@ -33,7 +33,7 @@ const DJWeek = () => {
                   How long will your ad run?
                 </Text>
               </Box>
-              <Box w={"50%"}>
+              <Box w={["100%","100%","50%","50%"]}>
                 <Select bgColor={"#E0E0E0"}>
                   <option>Cost</option>
                 </Select>
@@ -49,8 +49,8 @@ const DJWeek = () => {
                 </Text>
               </Box>
             </Flex>
-            <Flex gap={"24px"} textAlign={"left"} mb={"100px"}>
-              <Box w={"50%"}>
+            <Flex direction={["column","column","row","row",]} gap={"24px"} textAlign={"left"} mb={"100px"}>
+              <Box w={["100%","100%","50%","50%"]}>
                 <Select bgColor={"#E0E0E0"}>
                   <option>Location</option>
                 </Select>
@@ -65,7 +65,7 @@ const DJWeek = () => {
                   Which location do you want to target?
                 </Text>
               </Box>
-              <Box w={"50%"}>
+              <Box w={["100%","100%","50%","50%"]}>
                 <Select bgColor={"#E0E0E0"}>
                   <option>Display Ad Immediately</option>
                 </Select>
