@@ -1,13 +1,20 @@
 import axios from "axios";
 import * as types from "./ActionTypes";
 
-const deleteProduct = (payload, toast,token) => (dispatch) => {
-  console.log("from delete",payload)
+const deleteProduct = (payload, toast, token) => (dispatch) => {
+  console.log("from delete", payload);
   dispatch({ type: types.DELETE_PRODUCT_REQUEST });
   axios
-    .delete(`${process.env.REACT_APP_BACKEND_URL}/product/delete?sku=${payload.products.join(",")}`,{headers: {
-      Authorization: `Bearer ${token}`,
-    }})
+    .delete(
+      `${
+        process.env.REACT_APP_BACKEND_URL
+      }/product/delete?sku=${payload.products.join(",")}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
     .then((res) => {
       dispatch({ type: types.DELETE_PRODUCT_SUCCESS });
       toast({
@@ -27,7 +34,7 @@ const deleteProduct = (payload, toast,token) => (dispatch) => {
       });
     });
 };
-const themeChanger=(payload)=>(dispatch)=>{
-  dispatch({type:types.THEME_CHANGE,payload})
-}
-export { deleteProduct,themeChanger };
+const themeChanger = (payload) => (dispatch) => {
+  dispatch({ type: types.THEME_CHANGE, payload });
+};
+export { deleteProduct, themeChanger };

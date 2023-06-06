@@ -43,7 +43,7 @@ const LinkItems = [
   { name: "Dj of the Week", icon: FiCompass, url: "/dj/djoftheweek" },
   { name: "Promos", icon: FiStar, url: "/dj/djoftheweek" },
   { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
-  { name: "Messages", icon: FiUser, url: "/dj/djoftheweek" },
+  { name: "Messages", icon: FiUser, url: "/dj/messages" },
 ];
 export function Dashboard({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
