@@ -1,14 +1,13 @@
 import axios from "axios";
 import * as types from "./ActionTypes";
 
-const deleteProduct = (payload, toast, token) => (dispatch) => {
-  console.log("from delete", payload);
-  dispatch({ type: types.DELETE_PRODUCT_REQUEST });
+const getDJMessageList = (payload, toast, token) => (dispatch) => {
+  dispatch({ type: types.GET_DJMESSAGELIST_REQUEST });
   axios
-    .delete(
+    .get(
       `${
         process.env.REACT_APP_BACKEND_URL
-      }/product/delete?sku=${payload.products.join(",")}`,
+      }/api/message/get-dj-message-list/${payload.id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -16,18 +15,13 @@ const deleteProduct = (payload, toast, token) => (dispatch) => {
       }
     )
     .then((res) => {
-      dispatch({ type: types.DELETE_PRODUCT_SUCCESS });
-      toast({
-        title: res.data.msg,
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+      dispatch({ type: types.GET_DJMESSAGELIST_SUCCESS,payload:res.data.data.messageList });
+      
     })
     .catch((err) => {
-      dispatch({ type: types.DELETE_PRODUCT_FAILURE });
+      dispatch({ type: types.GET_DJMESSAGELIST_FAILURE });
       toast({
-        title: err.response.data.msg,
+        title: err.response.data.message,
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -37,4 +31,4 @@ const deleteProduct = (payload, toast, token) => (dispatch) => {
 const themeChanger = (payload) => (dispatch) => {
   dispatch({ type: types.THEME_CHANGE, payload });
 };
-export { deleteProduct, themeChanger };
+export { getDJMessageList, themeChanger };

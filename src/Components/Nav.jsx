@@ -21,6 +21,7 @@ import {
   Center,
   Image,
   useToast,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -47,13 +48,12 @@ const LinkItems = [
 ];
 export function Dashboard({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const theme=useSelector((store)=>store.app.theme);
+  const theme = useSelector((store) => store.app.theme);
   return (
     <Box>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
-
       />
       <Drawer
         autoFocus={false}
@@ -69,45 +69,71 @@ export function Dashboard({ children }) {
         </DrawerContent>
       </Drawer>
       <Box>
-      <MobileNav onOpen={onOpen} />
-      <Box pl={{ base: 0, md: 60 }} p="4" transition="3s ease" bgColor={theme==="light"?"white":"#0A0F1B"}>
-        {children}
-      </Box>
+        <MobileNav onOpen={onOpen} />
+        <Box
+          pl={{ base: 0, md: 60 }}
+          p="4"
+          transition="3s ease"
+          bgColor={theme === "light" ? "white" : "#0A0F1B"}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
-  const [swith,setSwith]=useState(false);
-  const dispatch=useDispatch();
-  const handleTheme=()=>{
+  const [swith, setSwith] = useState(false);
+  const dispatch = useDispatch();
+  const handleTheme = () => {
     setSwith(!swith);
-  }
-  useEffect(()=>{
-    if(swith){
-      dispatch(themeChanger({theme:"dark"}))
+  };
+  useEffect(() => {
+    if (swith) {
+      dispatch(themeChanger({ theme: "dark" }));
+    } else {
+      dispatch(themeChanger({ theme: "light" }));
     }
-    else{
-      dispatch(themeChanger({theme:"light"}))
-    }
-  },[swith])
-  const theme=useSelector((store)=>store.app.theme);
-  
+  }, [swith]);
+  const theme = useSelector((store) => store.app.theme);
+
   return (
     <Box
       transition="3s ease"
-      bgColor={theme==="light"?"#F6F6F6":"#111823"}
+      bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
       w={{ base: "full", md: 60 }}
       position="absolute"
       left={"0"}
       top={"0"}
-
       zIndex={"99999"}
       {...rest}
     >
-      <Flex mb={"10px"} h="20" alignItems="center" mx="8" justifyContent="space-between">
-        {/* <Image h={"80px"} src={RCG_logo} /> */}
+      <Flex
+        mb={"10px"}
+        alignItems="center"
+        mx="8"
+        justifyContent="space-between"
+      >
+        <SimpleGrid
+          ml={"40px"}
+          gap={"1px"}
+          mt={"10px"}
+          fontSize={"20px"}
+          borderRadius={"50%"}
+          bgColor={"#007AFF"}
+          columns={"2"}
+          color={"white"}
+          p={"10px 25px"}
+          pl={"27px"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Text>S</Text>
+          <Text>P</Text>
+          <Text>O</Text>
+          <Text>T</Text>
+        </SimpleGrid>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
@@ -120,7 +146,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
               w={"200px"}
               mb={"10px"}
               pl={"20px"}
-              color={theme==="light"?"#787878":"#B9B9B9"}
+              color={theme === "light" ? "#787878" : "#B9B9B9"}
               borderRadius={"10px"}
               _hover={{ color: "white", bgColor: "cyan.400" }}
             >
@@ -134,30 +160,51 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </Link>
         </Center>
       ))}
-      <Box mt={"200px"} color={theme==="light"?"#787878":"#B9B9B9"} cursor={"pointer"}>
+      <Box
+        mt={"200px"}
+        color={theme === "light" ? "#787878" : "#B9B9B9"}
+        cursor={"pointer"}
+      >
         <Text cursor={"pointer"}>Logout</Text>
       </Box>
-      <Box cursor={"pointer"} mt={"20px"} mb={"20px"} >
-     <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
-     <Text mt={"-5px"} border={"1px solid black"} p={"0px 8px"} bgColor={"white"} borderRadius={"15px"}>Light</Text>
-        <Switch size={"md"} id="themeSwitch" onChange={()=>handleTheme()}/>
-        <Text mt={"-5px"} border={"0px solid black"} bgColor={"black"} color={"white"} p={"0px 8px"} borderRadius={"15px"}>Dark</Text>
-     </Flex>
+      <Box cursor={"pointer"} mt={"20px"} mb={"20px"}>
+        <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
+          <Text
+            mt={"-5px"}
+            border={"1px solid black"}
+            p={"0px 8px"}
+            bgColor={"white"}
+            borderRadius={"15px"}
+          >
+            Light
+          </Text>
+          <Switch size={"md"} id="themeSwitch" onChange={() => handleTheme()} />
+          <Text
+            mt={"-5px"}
+            border={"0px solid black"}
+            bgColor={"black"}
+            color={"white"}
+            p={"0px 8px"}
+            borderRadius={"15px"}
+          >
+            Dark
+          </Text>
+        </Flex>
       </Box>
     </Box>
   );
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
-  const toast=useToast();
-  const handleLogout=()=>{
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const toast = useToast();
+  const handleLogout = () => {
     // dispatch(logout(toast));
     navigate("/");
-  }
-  const user=useSelector((store)=>store.auth.user);
-  const theme=useSelector((store)=>store.app.theme);
+  };
+  const user = useSelector((store) => store.auth.user);
+  const theme = useSelector((store) => store.app.theme);
   return (
     <Flex
       position={"sticky"}
@@ -168,7 +215,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       height="20"
       alignItems="center"
       transition="3s ease"
-      bgColor={theme==="light"?"white":"#0A0F1B"}
+      bgColor={theme === "light" ? "white" : "#0A0F1B"}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}

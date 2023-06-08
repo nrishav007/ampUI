@@ -2,22 +2,27 @@ import * as types from "./ActionTypes";
 const initialState = {
   isLoading:false,
   isError: false,
-  theme:"light"
+  theme:"light",
+  djDMs:[]
 };
 
 export const Reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.GET_PRODUCTS_REQUEST: {
-      return { ...state, products: [], isProductLoading: true, isError: false };
+    case types.GET_DJMESSAGELIST_REQUEST: {
+      return { ...state, isLoading: true, isError: false };
     }
-    case types.GET_PRODUCTS_SUCCESS: {
+    case types.GET_DJMESSAGELIST_SUCCESS: {
       return {
         ...state,
-        isProductLoading: false,
-        products: payload,
+        isLoading: false,
+        djDMs: payload,
         isError: false,
       };
     }
+    case types.GET_DJMESSAGELIST_FAILURE: {
+      return { ...state, djDMs: [], isLoading: false, isError: true };
+    }
+
     case types.THEME_CHANGE: {
       return { ...state, theme:payload.theme };
     }

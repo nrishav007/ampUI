@@ -4,7 +4,16 @@ import Nav from "../../Components/Nav";
 import dj from "../../Assets/dj.jpg";
 import { AiFillStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { PieChart, Pie, LineChart, Line, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  LineChart,
+  Line,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Tooltip,
+} from "recharts";
 import axios from "axios";
 
 const DJDashboard = () => {
@@ -45,6 +54,36 @@ const DJDashboard = () => {
     {
       name: "India",
       price: 520,
+    },
+  ];
+  const bardata = [
+    {
+      name: "Page A",
+      value: 0,
+    },
+    {
+      name: "Page B",
+      value: 0,
+    },
+    {
+      name: "Page C",
+      value: 0,
+    },
+    {
+      name: "Page D",
+      value: 0,
+    },
+    {
+      name: "Page E",
+      value: 0
+    },
+    {
+      name: "Page F",
+      value: 0
+    },
+    {
+      name: "Page G",
+      value: 0,
     },
   ];
   const theme = useSelector((store) => store.app.theme);
@@ -285,12 +324,18 @@ const DJDashboard = () => {
                 Countries
               </Text>
             </Center>
-            <Center>
-              <Text color={theme === "light" ? "#3A3A3A" : "white"} mt={"15px"}>
-                Total Earnings
-              </Text>
-            </Center>
-            <Box p={"0px 20px"} fontWeight={"500"} fontSize={["10px","14px","15px","20px"]}>
+            <ResponsiveContainer width="100%" height={154}>
+              <BarChart width={150} height={40} data={grap?.length>0?grap:bardata}>
+              <Tooltip />
+                <Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} label />
+              </BarChart>
+            </ResponsiveContainer>
+            <Box
+            mt={"20px"}
+              p={"0px 20px"}
+              fontWeight={"500"}
+              fontSize={["10px", "14px", "15px", "20px"]}
+            >
               {orders.map(({ name, price }) => {
                 return (
                   <Flex
@@ -298,7 +343,7 @@ const DJDashboard = () => {
                     color={theme === "light" ? "#3A3A3A" : "white"}
                   >
                     <Text>{name}</Text>
-                    <Text>${price}</Text>
+                    <Text color={"#0086FF"}>${price}</Text>
                   </Flex>
                 );
               })}
@@ -322,29 +367,32 @@ const DJDashboard = () => {
             </Center>
             <Center>
               <ResponsiveContainer width="100%" height={154}>
-              <LineChart
-                data={linedata}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <Line
-                  dot={false}
-                  type="natural"
-                  dataKey="pv"
-                  stroke="#FAAE57"
-                  strokeWidth={3}
-                />
-                <Line
-                  dot={false}
-                  type="monotone"
-                  dataKey="uv"
-                  stroke="#7673FF"
-                  strokeWidth={3}
-                />
-              </LineChart>
+                <LineChart
+                  data={linedata}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <Line
+                    dot={false}
+                    type="natural"
+                    dataKey="pv"
+                    stroke="#FAAE57"
+                    strokeWidth={3}
+                  />
+                  <Line
+                    dot={false}
+                    type="monotone"
+                    dataKey="uv"
+                    stroke="#7673FF"
+                    strokeWidth={3}
+                  />
+                </LineChart>
               </ResponsiveContainer>
             </Center>
             <Box>
-              <Flex gap={"30px"} direction={["row","column","column","column","row"]}>
+              <Flex
+                gap={"30px"}
+                direction={["row", "column", "column", "column", "row"]}
+              >
                 <PieChart width={150} height={100}>
                   <Pie
                     data={data01}
@@ -368,7 +416,10 @@ const DJDashboard = () => {
               </Flex>
             </Box>
             <Box>
-              <Flex gap={"30px"} direction={["row","column","column","column","row"]}>
+              <Flex
+                gap={"30px"}
+                direction={["row", "column", "column", "column", "row"]}
+              >
                 <PieChart width={150} height={100}>
                   <Pie
                     data={data02}
