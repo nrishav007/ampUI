@@ -42,7 +42,7 @@ const LinkItems = [
   { name: "Home", icon: FiHome, url: "/dj" },
   { name: "Booking Request", icon: FiTrendingUp, url: "/dj/book" },
   { name: "Dj of the Week", icon: FiCompass, url: "/dj/djoftheweek" },
-  { name: "Promos", icon: FiStar, url: "/dj/djoftheweek" },
+  { name: "Promos", icon: FiStar, url: "/dj/promos" },
   { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
   { name: "Messages", icon: FiUser, url: "/dj/messages" },
 ];
@@ -73,7 +73,7 @@ export function Dashboard({ children }) {
         <Box
           pl={{ base: 0, md: 60 }}
           p="4"
-          transition="3s ease"
+          
           bgColor={theme === "light" ? "white" : "#0A0F1B"}
         >
           {children}
@@ -100,13 +100,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
   return (
     <Box
-      transition="3s ease"
       bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
       w={{ base: "full", md: 60 }}
       position="absolute"
       left={"0"}
       top={"0"}
       zIndex={"99999"}
+      h={"100%"}
       {...rest}
     >
       <Flex
@@ -214,7 +214,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      transition="3s ease"
+      
       bgColor={theme === "light" ? "white" : "#0A0F1B"}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}

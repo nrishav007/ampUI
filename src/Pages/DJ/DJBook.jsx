@@ -123,7 +123,9 @@ const DJBook = () => {
           border={"0.5px solid #787878"}
         ></Box>
         {data?.length <= 0 ? (
-          <Text>No Data available</Text>
+          <Box minH={"100vh"}>
+            <Text>No Data available</Text>
+          </Box>
         ) : (
           <Box ml={"54px"}>
             <Flex
