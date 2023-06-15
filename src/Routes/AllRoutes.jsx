@@ -4,6 +4,7 @@ import LoginView from '../Pages/LoginView'
 import RegView from '../Pages/RegView'
 import DJ from './DJ';
 import PrivateRoute from './PrivateRoute';
+import User from './User';
 
 
 const AllRoutes = () => {
@@ -11,7 +12,8 @@ const AllRoutes = () => {
     <Routes>
         <Route path="/register" element={<RegView/>} />
         <Route path="/login" element={<LoginView />} />
-        <Route path="/dj/*" element={<PrivateRoute><DJ /></PrivateRoute>} />
+        <Route path="/dj/*" element={<><DJ /></>} />
+        <Route path="/user/*" element={<><User /></>} />
     </Routes>
   )
 }

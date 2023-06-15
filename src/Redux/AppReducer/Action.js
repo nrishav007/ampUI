@@ -28,7 +28,12 @@ const getDJMessageList = (payload, toast, token) => (dispatch) => {
       });
     });
 };
+
 const themeChanger = (payload) => (dispatch) => {
   dispatch({ type: types.THEME_CHANGE, payload });
 };
-export { getDJMessageList, themeChanger };
+
+const DJMenuChanger = (payload) => (dispatch) => {
+  dispatch({ type: types.DJ_MENU, payload });
+};
+export { getDJMessageList, themeChanger,DJMenuChanger };

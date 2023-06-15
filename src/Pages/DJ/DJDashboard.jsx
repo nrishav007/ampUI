@@ -177,13 +177,13 @@ const DJDashboard = () => {
         <SimpleGrid columns={[1, 2, 3]} pt={"20px"} gap={"30px"}>
           <Box
             h={"152px"}
-            bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
+            bgColor={theme === "light" ? "#7673FF" : "#181D29"}
             borderRadius={"15px"}
           >
             <Center>
               <Text
                 pt={"23px"}
-                color={theme === "light" ? "#3A3A3A" : "white"}
+                color={"white"}
                 fontStyle={"normal"}
                 fontWeight={"600"}
                 fontSize={["40px", "40px", "40px", "60px"]}
@@ -193,20 +193,20 @@ const DJDashboard = () => {
               </Text>
             </Center>
             <Center>
-              <Text color={theme === "light" ? "#3A3A3A" : "white"} mt={"15px"}>
+              <Text color={"white"} mt={"15px"}>
                 Total Gigs
               </Text>
             </Center>
           </Box>
           <Box
             h={"152px"}
-            bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
+            bgColor={theme === "light" ? "#8744E1" : "#181D29"}
             borderRadius={"15px"}
           >
             <Center>
               <Text
                 pt={"23px"}
-                color={theme === "light" ? "#3A3A3A" : "white"}
+                color={"white"}
                 fontStyle={"normal"}
                 fontWeight={"600"}
                 fontSize={["40px", "40px", "40px", "60px"]}
@@ -216,20 +216,20 @@ const DJDashboard = () => {
               </Text>
             </Center>
             <Center>
-              <Text color={theme === "light" ? "#3A3A3A" : "white"} mt={"15px"}>
+              <Text color={"white"} mt={"15px"}>
                 Total Earning
               </Text>
             </Center>
           </Box>
           <Box
             h={"152px"}
-            bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
+            bgColor={theme === "light" ? "#FAAE57" : "#181D29"}
             borderRadius={"15px"}
           >
             <Center>
               <Text
                 pt={"23px"}
-                color={theme === "light" ? "#3A3A3A" : "white"}
+                color={"white"}
                 fontStyle={"normal"}
                 fontWeight={"600"}
                 fontSize={["40px", "40px", "40px", "60px"]}
@@ -239,7 +239,7 @@ const DJDashboard = () => {
               </Text>
             </Center>
             <Center>
-              <Text color={theme === "light" ? "#3A3A3A" : "white"} mt={"15px"}>
+              <Text color={"white"} mt={"15px"}>
                 Total Cost
               </Text>
             </Center>

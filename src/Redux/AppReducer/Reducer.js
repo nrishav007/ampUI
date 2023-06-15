@@ -1,5 +1,6 @@
 import * as types from "./ActionTypes";
 const initialState = {
+  djMenu:"Home",
   isLoading:false,
   isError: false,
   theme:"light",
@@ -27,6 +28,9 @@ export const Reducer = (state = initialState, { type, payload }) => {
       return { ...state, theme:payload.theme };
     }
 
+    case types.DJ_MENU:{
+      return { ...state, djMenu:payload.name };
+    }
     default:
       return state;
   }

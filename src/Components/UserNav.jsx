@@ -34,9 +34,9 @@ import {
   FiChevronDown,
   FiUser,
 } from "react-icons/fi";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DJMenuChanger, themeChanger } from "../Redux/AppReducer/Action";
+import { themeChanger } from "../Redux/AppReducer/Action";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, url: "/dj" },
@@ -46,7 +46,7 @@ const LinkItems = [
   { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
   { name: "Messages", icon: FiUser, url: "/dj/messages" },
 ];
-export function Dashboard({ children }) {
+export function UserNav({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const theme = useSelector((store) => store.app.theme);
   return (
@@ -85,21 +85,15 @@ export function Dashboard({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const theme = useSelector((store) => store.app.theme);
-  const menu = useSelector((store) => store.app.djMenu);
   const dispatch = useDispatch();
-  const updateNav=(pos)=>{
-    dispatch(DJMenuChanger({name:pos}))
-  }
-  
-  
   const handleTheme = () => {
     if (theme==="light") {
       dispatch(themeChanger({ theme: "dark" }));
     } else {
       dispatch(themeChanger({ theme: "light" }));
     }
-    
   };
+
   return (
     <Box
       bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
@@ -139,18 +133,18 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
+        <Center>
           <Link to={link.url}>
             <Box
               key={link.name}
               p={"20px 0px"}
               fontSize={"16px"}
-              w={"100%"}
+              w={"200px"}
               mb={"10px"}
-              bgColor={menu===link.name?"rgba(0, 134, 255, 0.05)":""}
-              onClick={()=>updateNav(link.name)}
               pl={"20px"}
-              color={menu===link.name?"#0086FF":theme==="light"?"#787878":"#B9B9B9"}
-              _hover={{ color: "#0086FF", bgColor: "rgba(0, 134, 255, 0.05)" }}
+              color={theme === "light" ? "#787878" : "#B9B9B9"}
+              borderRadius={"10px"}
+              _hover={{ color: "white", bgColor: "cyan.400" }}
             >
               <Flex gap={"30px"}>
                 <Center>
@@ -160,6 +154,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
               </Flex>
             </Box>
           </Link>
+        </Center>
       ))}
       <Box
         mt={"200px"}
@@ -293,4 +288,4 @@ const MobileNav = ({ onOpen, ...rest }) => {
   );
 };
 
-export default Dashboard;
+export default UserNav;
