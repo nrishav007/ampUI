@@ -34,13 +34,13 @@ import {
   FiChevronDown,
   FiUser,
 } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { themeChanger } from "../Redux/AppReducer/Action";
+import { DJMenuChanger, themeChanger } from "../Redux/AppReducer/Action";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, url: "/dj" },
-  { name: "Booking Request", icon: FiTrendingUp, url: "/dj/book" },
+  { name: "Home", icon: FiHome, url: "/user" },
+  { name: "Booking Request", icon: FiTrendingUp, url: "/user" },
   { name: "Dj of the Week", icon: FiCompass, url: "/dj/djoftheweek" },
   { name: "Promos", icon: FiStar, url: "/dj/promos" },
   { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
@@ -85,15 +85,21 @@ export function UserNav({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const theme = useSelector((store) => store.app.theme);
+  const menu = useSelector((store) => store.app.djMenu);
   const dispatch = useDispatch();
+  const updateNav=(pos)=>{
+    dispatch(DJMenuChanger({name:pos}))
+  }
+  
+  
   const handleTheme = () => {
     if (theme==="light") {
       dispatch(themeChanger({ theme: "dark" }));
     } else {
       dispatch(themeChanger({ theme: "light" }));
     }
+    
   };
-
   return (
     <Box
       bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
@@ -133,28 +139,33 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <Center>
           <Link to={link.url}>
             <Box
+            minH={"50px"}
               key={link.name}
-              p={"20px 0px"}
+              p={"10px 0px"}
               fontSize={"16px"}
-              w={"200px"}
+              w={"100%"}
               mb={"10px"}
+              bgColor={menu===link.name?"rgba(0, 134, 255, 0.05)":""}
+              onClick={()=>updateNav(link.name)}
               pl={"20px"}
-              color={theme === "light" ? "#787878" : "#B9B9B9"}
-              borderRadius={"10px"}
-              _hover={{ color: "white", bgColor: "cyan.400" }}
+              color={menu===link.name?"#0086FF":theme==="light"?"#787878":"#B9B9B9"}
+              _hover={{ color: "#0086FF", bgColor: "rgba(0, 134, 255, 0.05)" }}
             >
-              <Flex gap={"30px"}>
+              <Flex gap={"30px"}justifyContent={"space-between"}>
                 <Center>
                   <link.icon />
                 </Center>
                 <Center>{link.name}</Center>
+                {
+                  menu===link.name?(
+                    <Box roundedLeft={"xl"} w={"10px"} h={"50px"} bgColor={"#0086FF"}></Box>
+                  ):(<Box h={"50px"}></Box>)
+                }
               </Flex>
             </Box>
           </Link>
-        </Center>
       ))}
       <Box
         mt={"200px"}

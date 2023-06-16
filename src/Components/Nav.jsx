@@ -141,8 +141,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {LinkItems.map((link) => (
           <Link to={link.url}>
             <Box
+            minH={"50px"}
               key={link.name}
-              p={"20px 0px"}
+              p={"10px 0px"}
               fontSize={"16px"}
               w={"100%"}
               mb={"10px"}
@@ -152,11 +153,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
               color={menu===link.name?"#0086FF":theme==="light"?"#787878":"#B9B9B9"}
               _hover={{ color: "#0086FF", bgColor: "rgba(0, 134, 255, 0.05)" }}
             >
-              <Flex gap={"30px"}>
+              <Flex gap={"30px"}justifyContent={"space-between"}>
                 <Center>
                   <link.icon />
                 </Center>
                 <Center>{link.name}</Center>
+                {
+                  menu===link.name?(
+                    <Box roundedLeft={"xl"} w={"10px"} h={"50px"} bgColor={"#0086FF"}></Box>
+                  ):(<Box h={"50px"}></Box>)
+                }
               </Flex>
             </Box>
           </Link>
