@@ -61,8 +61,9 @@ const DJPromos = () => {
                   <Flex
                     gap={"10px"}
                     color={theme === "light" ? "#181D29" : "#787878"}
+                    direction={["column","column","row","row",]}
                   >
-                    <Flex gap={"5px"}>
+                    <Flex gap={"5px"} >
                       <Center>
                         <Image h={"10px"} src={follow_djpromo} />
                       </Center>
@@ -95,7 +96,7 @@ const DJPromos = () => {
                 >
                   {el.description}
                 </Text>
-                <Flex gap={"10px"} mt={"20px"}>
+                <Flex gap={"10px"} mt={"20px"} direction={["column","column","row","row",]}>
                   {el.genre.map((elem) => {
                     return (
                       <Box

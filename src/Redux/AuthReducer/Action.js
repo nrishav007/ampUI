@@ -12,6 +12,12 @@ export const login = (payload, toast, navigate) => (dispatch) => {
         duration: 3000,
         isClosable: true,
       });
+      if(res.data.data.user.userType==="dj"){
+        navigate("/dj")
+      }
+      else{
+        navigate("/user")
+      }
     })
     .catch((err) => {
       dispatch({ type: types.SIGNIN_FAILURE });
@@ -28,6 +34,7 @@ export const logout = (toast) => (dispatch) => {
   try {
     dispatch({ type: types.SIGNOUT_REQUEST });
     dispatch({ type: types.SIGNOUT_SUCCESS });
+    localStorage.removeItem("amp");
     toast({
       title: "Account Logout",
       status: "success",

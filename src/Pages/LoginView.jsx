@@ -24,13 +24,17 @@ const LoginView = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const error=useSelector((store)=>store.auth.isError)
+  const error = useSelector((store) => store.auth.isError);
   useEffect(() => {
-    if (localStorage.hasOwnProperty("amp")) {
+    if (
+      localStorage.hasOwnProperty("amp") &&
+      email.current.value === "" &&
+      password.current.value === ""
+    ) {
       let payload = JSON.parse(localStorage.getItem("amp"));
       dispatch(login(payload, toast, navigate));
     }
-  }, [dispatch,toast,navigate]);
+  }, [dispatch, toast, navigate]);
   const handleRemember = () => {
     if (email.current.value !== "" && password.current.value !== "") {
       const emailValidation = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
@@ -46,7 +50,6 @@ const LoginView = () => {
         payload.email = email.current.value;
         payload.password = password.current.value;
         localStorage.setItem("amp", JSON.stringify(payload));
-        handleLogin();
       }
     } else {
       toast({
@@ -71,7 +74,7 @@ const LoginView = () => {
         const payload = {};
         payload.email = email.current.value;
         payload.password = password.current.value;
-        dispatch(login(payload,toast,navigate));
+        dispatch(login(payload, toast, navigate));
       }
     } else {
       toast({

@@ -50,15 +50,15 @@ const DJWeek = () => {
   return (
     <Nav>
       <Box p={"0px 41px 0px 54px"} pt={"30px"}>
-        <Flex gap={"42px"}>
-          <Box w={"1056px"}>
+        <Flex gap={"42px"} direction={["column-reverse","column-reverse","row","row"]}>
+          <Box>
             <Image src={banner} />
             <Flex
               direction={["column", "column", "row", "row"]}
               gap={"24px"}
-              mt={"138px"}
+              mt={["50px","50px","80px","138px"]}
               textAlign={"left"}
-              mb={"100px"}
+              mb={["40px","40px","40px","100px"]}
             >
               <Box w={["100%", "100%", "50%", "50%"]}>
                 <Input
@@ -157,8 +157,9 @@ const DJWeek = () => {
             </Button>
           </Box>
           <Box
-            w={"500px"}
-            h={"490px"}
+            w={["full","full","full","500px"]}
+            h={"100%"}
+            pb={"10px"}
             boxShadow={"0px 20px 50px rgba(0, 0, 0, 0.1)"}
             color={theme === "light" ? "#3A3A3A" : "white"}
             bgColor={theme === "light" ? "white" : "#111823"}

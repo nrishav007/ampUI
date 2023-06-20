@@ -12,8 +12,8 @@ const AllRoutes = () => {
     <Routes>
         <Route path="/register" element={<RegView/>} />
         <Route path="/login" element={<LoginView />} />
-        <Route path="/dj/*" element={<><DJ /></>} />
-        <Route path="/user/*" element={<><User /></>} />
+        <Route path="/dj/*" element={<PrivateRoute><DJ /></PrivateRoute>} />
+        <Route path="/user/*" element={<PrivateRoute><User /></PrivateRoute>} />
     </Routes>
   )
 }
