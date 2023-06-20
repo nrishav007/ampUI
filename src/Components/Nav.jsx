@@ -53,7 +53,7 @@ export function Dashboard({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const theme = useSelector((store) => store.app.theme);
   return (
-    <Box>
+    <Box h={window.innerHeight} bgColor={theme === "light" ? "white" : "#0A0F1B"}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -71,7 +71,7 @@ export function Dashboard({ children }) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <Box>
+      <Box bgColor={theme === "light" ? "white" : "#0A0F1B"}>
         <MobileNav onOpen={onOpen} />
         <Box
           pl={{ base: 0, md: 60 }}
@@ -114,6 +114,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       left={"0"}
       bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
       w={{ base: "full", md: 60 }}
+      h={"100%"}
       zIndex={"99999"}
       {...rest}
     >
@@ -143,7 +144,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </SimpleGrid>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      <Flex justifyContent={"space-between"} direction={"column"}>
+      <Flex h={window.innerHeight-100} justifyContent={"space-between"} direction={"column"}>
         <Box>
           {LinkItems.map((link) => (
             <Link to={link.url}>

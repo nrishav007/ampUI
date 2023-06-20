@@ -1,10 +1,11 @@
 import * as types from "./ActionTypes";
 const initialState = {
-  djMenu:"Home",
-  isLoading:false,
+  djMenu: "Home",
+  isLoading: false,
   isError: false,
-  theme:"light",
-  djDMs:[]
+  theme: "light",
+  djDMs: [],
+  djBook:[]
 };
 
 export const Reducer = (state = initialState, { type, payload }) => {
@@ -24,12 +25,27 @@ export const Reducer = (state = initialState, { type, payload }) => {
       return { ...state, djDMs: [], isLoading: false, isError: true };
     }
 
-    case types.THEME_CHANGE: {
-      return { ...state, theme:payload.theme };
+    case types.GET_DJBOOKINGLIST_REQUEST: {
+      return { ...state, isLoading: true,djBook:[], isError: false };
+    }
+    case types.GET_DJBOOKINGLIST_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        djBook: payload,
+        isError: false,
+      };
+    }
+    case types.GET_DJBOOKINGLIST_FAILURE: {
+      return { ...state, djBook: [], isLoading: false, isError: true };
     }
 
-    case types.DJ_MENU:{
-      return { ...state, djMenu:payload.name };
+    case types.THEME_CHANGE: {
+      return { ...state, theme: payload.theme };
+    }
+
+    case types.DJ_MENU: {
+      return { ...state, djMenu: payload.name };
     }
     default:
       return state;
