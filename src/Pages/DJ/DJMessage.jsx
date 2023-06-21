@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "../../Components/Nav";
 import {
   Box,
@@ -26,7 +26,8 @@ const DJMessage = () => {
   const dms = useSelector((store) => store.app.djDMs);
   const theme = useSelector((store) => store.app.theme);
   const toast = useToast();
-
+  let msg=useRef();
+  
   const getMessage = () => {
     try {
       axios
@@ -70,6 +71,24 @@ const DJMessage = () => {
       getMessage();
     }, 100000);
   };
+  const sendMessage=()=>{
+    let payload={...info}
+    payload.message=msg.current.value;
+    payload.userType="dj";
+    try {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/message/create-message`,payload,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(()=>{
+        getMessage();
+        msg.current.value="";
+      })
+    } catch (error) {
+      getMessage();
+    }
+  }
   useEffect(() => {
     dispatch(getDJMessageList({ id: user._id }, toast, token));
     setInterval(() => {
@@ -175,6 +194,29 @@ const DJMessage = () => {
                       </Flex>
                     );
                   }
+                  else{
+                    return (
+                      <Flex
+                      direction={"row-reverse"}
+                        ml={"10px"}
+                        gap={"10px"}
+                        mb={"10px"}
+                        color={"white"}
+                      >
+                        
+                        <Center>
+                          <Text
+                            p={"10px 20px"}
+                            borderRadius={"15px"}
+                            bgColor={"#3A3A3A"}
+                          >
+                            {ele.message}
+                          </Text>
+                        </Center>
+                        <Image src={userImage} />
+                      </Flex>
+                    );
+                  }
                 })}
               </Box>
               <Flex
@@ -190,12 +232,13 @@ const DJMessage = () => {
                   </Box>
                 </Center>
                 <Input
+                ref={msg}
                   variant={"unstyled"}
                   placeholder="Enter Text"
                   color={theme === "light" ? "black" : "white"}
                 />
                 <Center>
-                  <Box color={"#0086FF"} fontSize={"20px"} cursor={"pointer"}>
+                  <Box color={"#0086FF"} fontSize={"20px"} cursor={"pointer"} onClick={sendMessage}>
                     <BsFillSendFill />
                   </Box>
                 </Center>
