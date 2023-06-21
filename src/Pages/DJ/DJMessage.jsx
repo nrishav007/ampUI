@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../../Components/Nav";
-import { Box, Center, Flex, Image, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Image,
+  Input,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { IoIosCall } from 'react-icons/io';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { AiOutlinePaperClip } from "react-icons/ai";
+import { IoIosCall } from "react-icons/io";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsFillSendFill } from "react-icons/bs";
 import { getDJMessageList } from "../../Redux/AppReducer/Action";
 import axios from "axios";
 const DJMessage = () => {
@@ -17,27 +26,9 @@ const DJMessage = () => {
   const dms = useSelector((store) => store.app.djDMs);
   const theme = useSelector((store) => store.app.theme);
   const toast = useToast();
-  const handleChat = (el) => {
-    const payload = {
-      djId: user._id,
-      userId: el._id[0]._id,
-    };
-    setUserImage(el._id[0].profileImage)
-    setInfo(payload);
-    axios
-        .post(
-          `${process.env.REACT_APP_BACKEND_URL}/api/message/all-message`,
-          payload,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          setChat(res.data.data.messages);
-        });
-    setInterval(() => {
+
+  const getMessage = () => {
+    try {
       axios
         .post(
           `${process.env.REACT_APP_BACKEND_URL}/api/message/all-message`,
@@ -51,6 +42,32 @@ const DJMessage = () => {
         .then((res) => {
           setChat(res.data.data.messages);
         });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleChat = (el) => {
+    const payload = {
+      djId: user._id,
+      userId: el._id[0]._id,
+    };
+    setUserImage(el._id[0].profileImage);
+    setInfo(payload);
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/message/all-message`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setChat(res.data.data.messages);
+      });
+    setInterval(() => {
+      getMessage();
     }, 100000);
   };
   useEffect(() => {
@@ -62,13 +79,14 @@ const DJMessage = () => {
   return (
     <Nav>
       <Flex>
-        <Box w={"30%"} h={"750px"} borderRight={"1px solid #787878"} p={"20px"}>
+        <Box w={"30%"} borderRight={"1px solid #787878"} p={"20px"}>
           <Flex direction={"column"}>
             {dms.map((el) => {
               let data = el._id[0];
               return (
                 <Flex
                   gap={"5px"}
+                  direction={["column", "column", "row", "row"]}
                   cursor={"pointer"}
                   onClick={() => handleChat(el)}
                 >
@@ -76,6 +94,7 @@ const DJMessage = () => {
                   <Center>
                     <Text
                       cursor={"pointer"}
+                      fontSize={["14px", "16px", "18px", "20px"]}
                       color={theme === "light" ? "black" : "white"}
                     >
                       {data.email}
@@ -86,38 +105,112 @@ const DJMessage = () => {
             })}
           </Flex>
         </Box>
-        {
-          chat.length>0?(
-            <Box w={"full"}>
-          <Box p={"15px"} mb={"30px"} bgColor={theme==="light"?"white":"#111823"}>
-            <Flex justifyContent={"space-between"}>
-              <Flex gap={"10px"}>
-              <Image src={userImage} />
-              <Text color={theme==="light"?"black":"white"}>Name</Text>
-              </Flex>
-              <Flex gap={"5px"} color={"white"}>
+        {chat.length > 0 ? (
+          <Box w={"full"} h={[window.innerHeight,window.innerHeight,window.innerHeight - 100,window.innerHeight - 100]}>
+            <Flex
+              direction={"column"}
+              justifyContent={"space-between"}
+              h={[window.innerHeight - 150,window.innerHeight - 150,window.innerHeight - 150,window.innerHeight - 100]}
+            >
+              <Box>
+                <Box
+                  p={"15px"}
+                  mb={"30px"}
+                  bgColor={theme === "light" ? "white" : "#111823"}
+                >
+                  <Flex
+                    justifyContent={"space-between"}
+                    direction={["column", "row", "row", "row"]}
+                  >
+                    <Flex
+                      gap={"10px"}
+                      direction={["column", "row", "row", "row"]}
+                    >
+                      <Image h={"50px"} w={"50px"} src={userImage} />
+                      <Text color={theme === "light" ? "black" : "white"}>
+                        Name
+                      </Text>
+                    </Flex>
+                    <Flex gap={"5px"} color={"white"}>
+                      <Center>
+                        <Box
+                          bgColor={"#0086FF"}
+                          borderRadius={"50%"}
+                          p={"10px"}
+                        >
+                          <IoIosCall />
+                        </Box>
+                      </Center>
+                      <Center>
+                        <Box
+                          bgColor={"#0086FF"}
+                          borderRadius={"50%"}
+                          p={"10px"}
+                        >
+                          <BsThreeDotsVertical />
+                        </Box>
+                      </Center>
+                    </Flex>
+                  </Flex>
+                </Box>
+                {chat.map((ele) => {
+                  if (ele.userType === "user") {
+                    return (
+                      <Flex
+                        ml={"10px"}
+                        gap={"10px"}
+                        mb={"10px"}
+                        color={"white"}
+                      >
+                        <Image src={userImage} />
+                        <Center>
+                          <Text
+                            p={"10px 20px"}
+                            borderRadius={"15px"}
+                            bgColor={"#3A3A3A"}
+                          >
+                            {ele.message}
+                          </Text>
+                        </Center>
+                      </Flex>
+                    );
+                  }
+                })}
+              </Box>
+              <Flex
+                bgColor={theme === "light" ? "white" : "#111823"}
+                p={"10px"}
+                gap={"10px"}
+                m={"20px"}
+                borderRadius={"15px"}
+              >
                 <Center>
-                <Box bgColor={"#0086FF"} borderRadius={"50%"} p={"10px"}><IoIosCall/></Box></Center>
+                  <Box color={"#787878"} fontSize={"20px"}>
+                    <AiOutlinePaperClip />
+                  </Box>
+                </Center>
+                <Input
+                  variant={"unstyled"}
+                  placeholder="Enter Text"
+                  color={theme === "light" ? "black" : "white"}
+                />
                 <Center>
-                <Box bgColor={"#0086FF"} borderRadius={"50%"} p={"10px"}><BsThreeDotsVertical/></Box></Center>
+                  <Box color={"#0086FF"} fontSize={"20px"} cursor={"pointer"}>
+                    <BsFillSendFill />
+                  </Box>
+                </Center>
               </Flex>
             </Flex>
           </Box>
-          {chat.map((ele) => {
-            if(ele.userType==="user"){
-              return(
-                <Flex ml={"10px"} gap={"10px"} mb={"10px"} color={"white"}>
-                  <Image src={userImage} />
-                  <Center>
-                  <Text p={"10px 20px"} borderRadius={"15px"} bgColor={"#3A3A3A"}>{ele.message}</Text>
-                  </Center>
-                  </Flex>
-              )
-            }
-          })}
-        </Box>
-          ):(<Box ml={"10px"} fontSize={"20px"} color={theme==="light"?"black":"white"}>Open any chat to see</Box>)
-        }
+        ) : (
+          <Box
+            ml={"10px"}
+            fontSize={"20px"}
+            color={theme === "light" ? "black" : "white"}
+          >
+            Open any chat to see
+          </Box>
+        )}
       </Flex>
     </Nav>
   );

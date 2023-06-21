@@ -173,7 +173,7 @@ const DJDashboard = () => {
   ];
   return (
     <Nav>
-      <Box pb={"20px"} pl={"57px"} pr={"42px"}>
+      <Box pb={"20px"} pl={["10px","20px","30px","57px"]} pr={["10px","20px","30px","42px"]}>
         <SimpleGrid columns={[1, 2, 3]} pt={"20px"} gap={"30px"}>
           <Box
             h={"152px"}
@@ -186,7 +186,7 @@ const DJDashboard = () => {
                 color={"white"}
                 fontStyle={"normal"}
                 fontWeight={"600"}
-                fontSize={["40px", "40px", "40px", "60px"]}
+                fontSize={["15px", "25px", "35px", "60px"]}
                 lineHeight={"60px"}
               >
                 250
@@ -209,7 +209,7 @@ const DJDashboard = () => {
                 color={"white"}
                 fontStyle={"normal"}
                 fontWeight={"600"}
-                fontSize={["40px", "40px", "40px", "60px"]}
+                fontSize={["15px", "25px", "35px", "60px"]}
                 lineHeight={"60px"}
               >
                 $ {addCommas(1623)}
@@ -232,7 +232,7 @@ const DJDashboard = () => {
                 color={"white"}
                 fontStyle={"normal"}
                 fontWeight={"600"}
-                fontSize={["40px", "40px", "40px", "60px"]}
+                fontSize={["15px", "25px", "35px", "60px"]}
                 lineHeight={"60px"}
               >
                 $ {addCommas(580)}
@@ -276,8 +276,8 @@ const DJDashboard = () => {
               </ResponsiveContainer>
             </Box>
             <Box mt={"20px"} ml={"10px"} mr={"10px"}>
-              <Flex justifyContent={"space-between"} fontWeight={"500"}>
-                <Flex gap={"15px"}>
+              <Flex justifyContent={"space-between"} fontWeight={"500"} direction={["column","column","row","row"]}>
+                <Flex gap={"15px"} direction={["column","column","row","row"]}>
                   <Box
                     w={"26px"}
                     h={"26px"}
@@ -292,8 +292,8 @@ const DJDashboard = () => {
               </Flex>
             </Box>
             <Box ml={"10px"} mr={"10px"} mt={"20px"} pb={"20px"}>
-              <Flex justifyContent={"space-between"} fontWeight={"500"}>
-                <Flex gap={"15px"}>
+              <Flex direction={["column","column","row","row"]} justifyContent={"space-between"} fontWeight={"500"}>
+                <Flex gap={"15px"} direction={["column","column","row","row"]}>
                   <Box
                     w={"26px"}
                     h={"26px"}
@@ -339,6 +339,8 @@ const DJDashboard = () => {
               {orders.map(({ name, price }) => {
                 return (
                   <Flex
+                  textAlign={"left"}
+                  direction={["column","row","row","row"]}
                     justifyContent={"space-between"}
                     color={theme === "light" ? "#3A3A3A" : "white"}
                   >
@@ -391,7 +393,7 @@ const DJDashboard = () => {
             <Box>
               <Flex
                 gap={"30px"}
-                direction={["row", "column", "column", "column", "row"]}
+                direction={["column", "column", "column", "column", "row"]}
               >
                 <PieChart width={150} height={100}>
                   <Pie
@@ -418,7 +420,7 @@ const DJDashboard = () => {
             <Box>
               <Flex
                 gap={"30px"}
-                direction={["row", "column", "column", "column", "row"]}
+                direction={["column", "column", "column", "column", "row"]}
               >
                 <PieChart width={150} height={100}>
                   <Pie
@@ -469,7 +471,7 @@ const DJDashboard = () => {
                 <Image
                   borderRadius={"15px"}
                   h={[
-                    "100px",
+                    "",
                     "150px",
                     "170px",
                     "190px",
@@ -525,7 +527,7 @@ const DJDashboard = () => {
                 <Image
                   borderRadius={"15px"}
                   h={[
-                    "100px",
+                    "",
                     "150px",
                     "170px",
                     "190px",
@@ -586,7 +588,7 @@ const DJDashboard = () => {
                 <Image
                   borderRadius={"15px"}
                   h={[
-                    "100px",
+                    "",
                     "150px",
                     "170px",
                     "190px",
