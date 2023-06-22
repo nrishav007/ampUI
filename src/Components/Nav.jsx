@@ -246,9 +246,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
-  const handleLogout = () => {
-    // dispatch(logout(toast));
-    navigate("/");
+  const handleProfile = () => {
+    navigate("/dj/profile");
   };
   const user = useSelector((store) => store.auth.user);
   const theme = useSelector((store) => store.app.theme);
@@ -316,11 +315,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
               borderColor={useColorModeValue("gray.200", "gray.700")}
               zIndex={"999"}
             >
-              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={handleProfile}>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+              {/* <MenuDivider /> */}
             </MenuList>
           </Menu>
         </Flex>

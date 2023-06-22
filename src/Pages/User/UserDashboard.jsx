@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserNav from "../../Components/UserNav";
-import { Box, Center, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { Box, Center, Flex, Image, SimpleGrid, Text, useToast } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { RxDotsVertical } from 'react-icons/rx';
 import { BsFillCalendarEventFill,BsFillPlayFill } from 'react-icons/bs';
 import { AiFillStar } from 'react-icons/ai';
+import { getUserDJList } from "../../Redux/AppReducer/Action";
 const UserDashboard = () => {
   const theme = useSelector((store) => store.app.theme);
+  const token = useSelector((store) => store.auth.token);
+  const djData=useSelector((store)=>store.app.userDJList);
+  const toast=useToast();
+  const dispatch=useDispatch();
+  useEffect(()=>{
+    dispatch(getUserDJList(token,toast))
+  },[dispatch,toast,token])
   let data = [
     {
       name: "Dj Khalid",
@@ -106,6 +114,7 @@ const UserDashboard = () => {
     },
     
   ];
+  let genre=["sp1","sp2","sp3","sp4","sp5","sp6","sp7","sp8","sp9","sp10","sp11","sp12",]
   return (
     <UserNav>
       <Box minH={"800px"} p={"20px"}>
@@ -122,60 +131,65 @@ const UserDashboard = () => {
         </Text>
         <SimpleGrid columns={[1,1,2,3]} gap={"20px"}>
           {
-            data.map((el,i)=>{
+            djData.length>0 && djData?.map((el,i)=>{
 
               return(
                 <Box color={"white"}  borderRadius={"15px"} key={i} p={"10px"} bgColor={i%2===0?"#63D471":"#B16668"}>
-                  <Flex gap={"10px"}>
-                  <Image borderRadius={"15px"}w={"100px"} h={"100px"} src={"https://media.gettyimages.com/id/694021603/photo/smiling-black-dj-on-urban-rooftop.jpg?s=612x612&w=gi&k=20&c=vwZnB8WoVQwGdCDCI1Z0ex527y7m9Y8BBTYaTNCWB5Y="} />
-                  <Box textAlign={"left"} w={"100%"}>
+                  <Flex gap={"10px"} direction={["column","column","column","column","row"]}>
+                  <Image borderRadius={"15px"}w={"100px"} h={"100px"} src={el.profileImage} />
+                  <Box textAlign={"left"} w={"full"}>
                     <Flex justifyContent={"space-between"} gap={"10px"}>
-                      <Flex gap={"5px"} fontSize={"12px"}>
-                        {el.genre.map((name)=>{
-                          return(
-                            <Text>{name}</Text>
+                      <Flex gap={"5px"} fontSize={"12px"}direction={["column","row","row","row","row"]}>
+                        {genre.map((elem)=>{
+                          
+                          let name=elem;
+                          if(el[name]!==""){
+                            return(
+                            <Text>{el[name]}</Text>
                           )
+                          }
+                          
                         })}
                       </Flex>
                       <Box fontSize={"20px"}>
                       <RxDotsVertical/></Box>
                     </Flex>
-                    <Text fontWeight={"bold"} fontSize={"22px"}>{el.name}</Text>
+                    <Text fontWeight={"bold"} fontSize={"22px"}>{el.djName||"No Name"}</Text>
                     <Flex gap={"5px"} fontSize={"14px"}>
                       <Center>
                       <BsFillCalendarEventFill/></Center>
                       <Center>
                       <Text>Until</Text></Center>
                       <Center>
-                      <Text>{el.date}</Text></Center>
+                      <Text>Apr 26, 2023</Text></Center>
                     </Flex>
                     <Flex justifyContent={"space-between"}>
-                    <Flex gap={"10px"}>
+                    <Flex gap={"10px"}direction={["column","row","row","row","row"]}>
                     <Center>
                     {
-                        el.rating===1?(
+                        el.avgRating<=1?(
                           <Flex>
                             <AiFillStar/>
                           </Flex>
-                        ):el.rating===2?(
+                        ):el.avgRating<=2?(
                           <Flex>
                             <AiFillStar/>
                             <AiFillStar/>
                           </Flex>
-                        ):el.rating===3?(
-                          <Flex>
-                            <AiFillStar/>
-                            <AiFillStar/>
-                            <AiFillStar/>
-                          </Flex>
-                        ):el.rating===4?(
+                        ):el.avgRating<=3?(
                           <Flex>
                             <AiFillStar/>
                             <AiFillStar/>
                             <AiFillStar/>
+                          </Flex>
+                        ):el.avgRating<=4?(
+                          <Flex>
+                            <AiFillStar/>
+                            <AiFillStar/>
+                            <AiFillStar/>
                             <AiFillStar/>
                           </Flex>
-                        ):el.rating===5?(
+                        ):el.avgRating<=5?(
                           <Flex>
                             <AiFillStar/>
                             <AiFillStar/>
@@ -187,9 +201,9 @@ const UserDashboard = () => {
                       }
                     </Center>
                       <Center>
-                      <Text fontSize={"13px"}>{el.rating}.0 Rating</Text></Center>
+                      <Text fontSize={"13px"}>{el.avgRating} Rating</Text></Center>
                     </Flex>
-                    <Box p={"5px"} borderRadius={"50%"} bgColor={"white"} color={i%2===0?"#63D471":"#B16668"}>
+                    <Box h={"30px"} p={"7px"} w={"30px"} borderRadius={"50%"} bgColor={"white"} color={i%2===0?"#63D471":"#B16668"}>
                       <BsFillPlayFill/>
                     </Box>
                     </Flex>

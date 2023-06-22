@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import UserNav from "../../Components/UserNav";
+import React, { useEffect, useState } from "react";
+import Nav from "../../Components/Nav";
 import {
   Box,
   Button,
@@ -10,15 +10,21 @@ import {
   SimpleGrid,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import pro from "../../Assets/pro.png";
 import visa from "../../Assets/visa.png";
 import master from "../../Assets/mastercard.png";
 import elite from "../../Assets/elite.png";
-import profile from "../../Assets/profile.png";
-import { useSelector } from "react-redux";
-const UserProfile = () => {
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { profileUpdate } from "../../Redux/AuthReducer/Action";
+const DJProfile = () => {
   const theme = useSelector((store) => store.app.theme);
+  const user = useSelector((store) => store.auth.user);
+  const token = useSelector((store) => store.auth.token);
+  const dispatch=useDispatch();
+  const toast = useToast();
   const handlePref = (i) => {
     const tempS = [...sound];
     const tempP = { ...payload };
@@ -33,7 +39,7 @@ const UserProfile = () => {
     setPayload(tempP);
   };
   const [payload, setPayload] = useState({});
-  const [sound, setSound] = useState([
+  const initSound=[
     {
       name: "Afrobeats",
       key: "sp1",
@@ -94,10 +100,58 @@ const UserProfile = () => {
       key: "sp12",
       active: false,
     },
-  ]);
+  ]
+  const [sound, setSound] = useState(initSound);
+  const [profileImage, setProfileImage] = useState("");
+  const upateProfileImage = (profileimage) => {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/update-profile`, profileimage, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(()=>{
+      dispatch(profileUpdate(token,toast))
+    })
+  };
+  const handleUploadImage = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
+  const handleSound=()=>{
+    try {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/set-user-sound-preference`,payload,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(()=>{
+        toast({
+          title: 'Sound Updated.',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        })
+        setSound(initSound);
+      })
+    } catch (error) {
+      toast({
+        title: 'Error in Update',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+    }
+  }
+  useEffect(() => {
+    if (profileImage!=="") {
+        let data = new FormData();
+        data.append("doc", profileImage, profileImage.name);
+        upateProfileImage(data)
+    }
+  }, [profileImage]);
   return (
-    <UserNav>
-      <Box pl={"30px"} pr={"10px"}>
+    <Nav>
+      <Box pl={["0px","10px","10px","30px"]} pr={"10px"}>
         <Flex
         direction={["column","column","column","row","row"]}
           mb={"40px"}
@@ -106,15 +160,26 @@ const UserProfile = () => {
           borderRadius={"15px"}
           justifyContent={"space-between"}
         >
-          <Flex gap={"20px"} pt={"40px"}>
+          <Flex gap={"20px"} pt={"40px"} direction={["column","column","column","row","row"]}>
             <Flex direction={"column"} gap={"10px"}>
               <Center>
-                <Image h={"150px"} w={"150px"} src={profile} />
+              <label htmlFor="imageUpload">
+                <Input
+                  type="file"
+                  hidden
+                  name="imageUpload"
+                  id="imageUpload"
+                  onChange={(e) => handleUploadImage(e)}
+                  accept=".jpg, .jpeg, .png"
+                />
+                <Image h={"150px"} w={"150px"} src={user.profileImage} />
+                </label>
               </Center>
               <Center>
-                <Text fontSize={"12px"} color={"#B9B9B9"}>
-                  Click photo for change
-                </Text>
+                <Box>
+              
+                <Text>Click Photo for Change</Text>
+                </Box>
               </Center>
             </Flex>
             <Flex
@@ -130,7 +195,7 @@ const UserProfile = () => {
                   fontWeight={"600"}
                   color={theme === "light" ? "black" : "white"}
                 >
-                  Name
+                  {user.djName}
                 </Text>
               </Center>
               <Center>
@@ -141,7 +206,7 @@ const UserProfile = () => {
             </Flex>
           </Flex>
           <Box
-            p={"10px 50px"}
+            p={["10px","10px","10px","10px 50px"]}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             boxShadow={
@@ -157,8 +222,9 @@ const UserProfile = () => {
               @USERNAME
             </Text>
             <Button
-              p={"0px 40px"}
+              p={["","0px 40px"]}
               mb={"10px"}
+              fontSize={["10px","14px","18px","20px"]}
               bgColor={"#0086FF"}
               color={"white"}
             >
@@ -179,13 +245,13 @@ const UserProfile = () => {
             p={"20px"}
             borderRadius={"15px"}
             bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
+            pr={["10px","10px","10px","100px"]}
           >
             <Text fontSize={"24px"} fontWeight={"600"} mb={"7px"}>
               Besic Information
             </Text>
             <Text mb={"7px"}>User Name</Text>
             <Input
-              w={"250px"}
               mb={"7px"}
               bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
               color={"#787878"}
@@ -193,23 +259,22 @@ const UserProfile = () => {
             <Text mb={"7px"}>Personal Bio</Text>
             <Textarea
               resize={"none"}
-              w={"250px"}
               h={"150px"}
               mb={"7px"}
               bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
               color={"#787878"}
             />
-            <Center>
             <Button
+             w={["auto","auto","auto","200px"]}
               variant={"unstyled"}
               p={"0px 20px"}
+              fontSize={["10px","14px","18px","20px"]}
               borderRadius={"15px"}
               bgColor={"#0086FF"}
               color={"white"}
             >
               Confirm Update
             </Button>
-            </Center>
           </Flex>
           <Flex
             direction={"column"}
@@ -261,6 +326,7 @@ const UserProfile = () => {
                 borderRadius={"15px"}
                 bgColor={"#0086FF"}
                 color={"white"}
+                onClick={handleSound}
               >
                 Confirm Update
               </Button>
@@ -336,7 +402,7 @@ const UserProfile = () => {
               borderRadius={"15px"}
             >
               <Center>
-              <Flex gap={"20px"}>
+              <Flex gap={"20px"} direction={["column","column","column","row","row"]}>
                 <Center>
                   <Image h={"50px"} src={master} />
                 </Center>
@@ -346,7 +412,7 @@ const UserProfile = () => {
               </Flex>
               </Center>
               <Center>
-              <Flex mt={"30px"} gap={"20px"}>
+              <Flex mt={"30px"} gap={"20px"} direction={["column","column","column","row","row"]}>
                 <Center>
                   <Image h={"20px"} src={visa} />
                 </Center>
@@ -359,8 +425,8 @@ const UserProfile = () => {
           </Box>
         </Flex>
       </Box>
-    </UserNav>
+    </Nav>
   );
 };
 
-export default UserProfile;
+export default DJProfile;

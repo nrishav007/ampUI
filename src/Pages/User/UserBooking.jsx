@@ -1,47 +1,49 @@
 import React, { useEffect, useState } from "react";
+import Nav from "../../Components/Nav";
 import banner from "../../Assets/banner.jpg";
-import { Box, Center, Flex, Image, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import UserNav from "../../Components/UserNav";
-
+import {
+  Box,
+  Center,
+  Flex,
+  Image,
+  Text,
+  useToast,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserBookingList } from "../../Redux/AppReducer/Action";
 const UserBooking = () => {
-    const [status, setStatus] = useState("all");
+  const [status, setStatus] = useState("all");
+  const toast = useToast();
   const token = useSelector((store) => store.auth.token);
   const [filterData, setFilterData] = useState([]);
   const theme = useSelector((store) => store.app.theme);
-  const [data, setData] = useState([]);
+  const book = useSelector((store) => store.app.userBook);
+  const dispatch = useDispatch();
+  const filterBooking = () => {
+
+    if (status !== "all") {
+      let tempData = book?.filter((el) => el.status === status);
+      setFilterData(tempData);
+    } else {
+      setFilterData(book);
+    }
+  };
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/booking/accept-booking`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setData([...data, ...res.data.data.booking]);
-        axios
-          .get(
-            `${process.env.REACT_APP_BACKEND_URL}/api/booking/pending-decline-booking`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) => {
-            setData([...data, ...res.data.data.booking]);
-          });
-      });
+    dispatch(getUserBookingList(token, toast));
+    filterBooking();
   }, []);
 
   useEffect(() => {
-    if (status !== "all" && data !== "undefined") {
-      let tempData = data?.filter((el) => el.status === status);
-      setFilterData(tempData);
-    } else {
-      setFilterData(data);
-    }
+    filterBooking();
   }, [status]);
   const toPascalCase = (string) => {
     return `${string}`
@@ -54,12 +56,19 @@ const UserBooking = () => {
       )
       .replace(new RegExp(/\w/), (s) => s.toUpperCase());
   };
+
   return (
-    <UserNav>
+    <Nav>
       <Box mt={"30px"} >
-        <Flex gap={"30px"} pl={"74px"}>
+        <Flex gap={"30px"} direction={["column","column","row","row"]} pl={["10px","10px","10px","74px"]}fontSize={["14px","16px","18px","20px"]}>
           <Box
-            bgColor={status === "all" ? "#0086FF" : "#F6F6F6"}
+            bgColor={
+              status === "all"
+                ? "#0086FF"
+                : theme === "light"
+                ? "white"
+                : "#0A0F1B"
+            }
             color={status === "all" ? "white" : "#787878"}
             p={"10px 20px"}
             borderRadius={"15px"}
@@ -71,18 +80,23 @@ const UserBooking = () => {
               fontFamily={"Poppins"}
               fontWeight={"500"}
               fontStyle={"normal"}
-              fontSize={"20px"}
               lineHeight={"30px"}
             >
               All
             </Text>
           </Box>
           <Box
-            bgColor={status === "pending" ? "#0086FF" : "#F6F6F6"}
-            color={status === "pending" ? "white" : "#787878"}
+            bgColor={
+              status === "Pending"
+                ? "#0086FF"
+                : theme === "light"
+                ? "white"
+                : "#0A0F1B"
+            }
+            color={status === "Pending" ? "white" : "#787878"}
             p={"10px 20px"}
             borderRadius={"15px"}
-            onClick={() => setStatus("pending")}
+            onClick={() => setStatus("Pending")}
             cursor={"pointer"}
           >
             <Text
@@ -90,18 +104,24 @@ const UserBooking = () => {
               fontFamily={"Poppins"}
               fontWeight={"500"}
               fontStyle={"normal"}
-              fontSize={"20px"}
+              
               lineHeight={"30px"}
             >
               Requested
             </Text>
           </Box>
           <Box
-            bgColor={status === "approved" ? "#0086FF" : "#F6F6F6"}
-            color={status === "approved" ? "white" : "#787878"}
+            bgColor={
+              status === "Accepted"
+                ? "#0086FF"
+                : theme === "light"
+                ? "white"
+                : "#0A0F1B"
+            }
+            color={status === "Accepted" ? "white" : "#787878"}
             p={"10px 20px"}
             borderRadius={"15px"}
-            onClick={() => setStatus("approved")}
+            onClick={() => setStatus("Accepted")}
             cursor={"pointer"}
           >
             <Text
@@ -109,7 +129,6 @@ const UserBooking = () => {
               fontFamily={"Poppins"}
               fontWeight={"500"}
               fontStyle={"normal"}
-              fontSize={"20px"}
               lineHeight={"30px"}
             >
               Approved
@@ -117,94 +136,94 @@ const UserBooking = () => {
           </Box>
         </Flex>
         <Box
-          ml={"54px"}
+           ml={["10px","10px","10px","54px"]}
           mt={"30px"}
           mb={"30px"}
           border={"0.5px solid #787878"}
         ></Box>
-        {data?.length <= 0 ? (
-          <Box minH={"100vh"}>
-            <Text color={theme === "light" ? "#3A3A3A" : "white"}>No Data available</Text>
+        {book?.length <= 0 ? (
+          <Box>
+            <Text>No Data available</Text>
           </Box>
         ) : (
-          <Box ml={"54px"}>
-            <Flex
-              justifyContent={"space-between"}
-              mr={"40px"}
-              bgColor={"#E0E0E0"}
-              p={"10px"}
-            >
-              <Box>
-                <Text>Profile</Text>
-              </Box>
-              <Box>
-                <Text>Event</Text>
-              </Box>
-              <Box>
-                <Text>Location</Text>
-              </Box>
-              <Box>
-                <Text>Date</Text>
-              </Box>
-              <Box>
-                <Text>Time</Text>
-              </Box>
-              <Box>
-                <Text>{status==="approved"?"Rating":"View map"}</Text>
-              </Box>
-            </Flex>
-            {filterData?.length > 0 &&
-              filterData?.map((el) => {
-                return (
-                  <Box mt={"30px"}>
-                    <Flex
-                      justifyContent={"space-between"}
-                      mr={"40px"}
-                      ml={"20px"}
-                      color={theme === "light" ? "#3A3A3A" : "white"}
-                    >
-                      <Center>
-                        <Image
-                          borderRadius={"15px"}
-                          w={"111px"}
-                          h={"94px"}
-                          src={banner}
-                        />
-                      </Center>
-                      <Text>{el.name}</Text>
-                      <Text>{el.location}</Text>
-                      <Text>{el.date}</Text>
-                      <Text>{el.genre}</Text>
-                      <Center mt={"-70px"}>
-                        <Text
-                          p={"10px"}
-                          borderRadius={"15px"}
-                          color={el.status === "decline" ? "black" : "white"}
-                          bgColor={
-                            el.status === "pending"
-                              ? "#FF3D14B2"
-                              : el.status === "approved"
-                              ? "#63D471"
-                              : "#9A9898"
-                          }
-                        >
-                          {toPascalCase(el.status)}
-                        </Text>
-                      </Center>
-                    </Flex>
-                    <Box
-                      mt={"30px"}
-                      mb={"30px"}
-                      border={"0.5px solid #787878"}
-                    ></Box>
-                  </Box>
-                );
-              })}
+          <Box ml={["10px","10px","10px","54px"]}>
+            <TableContainer>
+              <Table
+                variant={"unstyled"}
+                color={theme === "light" ? "#3A3A3A" : "#FFFFFF"}
+              >
+                <Thead bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}>
+                  <Tr>
+                    <Th>Profile</Th>
+                    <Th>Event</Th>
+                    <Th>Location</Th>
+                    <Th>Date</Th>
+                    <Th>Time</Th>
+                    {
+                      status!=="all"?(
+                        <Th>
+                      <Center>{status==="Accepted"?(
+                        <>
+                        <Text>Rating</Text>
+                        </>
+                      ):(
+                        <>
+                        <Text>View Map</Text>
+                        </>
+                      )}</Center>
+                    </Th>
+                      ):(
+                        <Th>Status</Th>
+                      )
+                    }
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {filterData?.length > 0 &&
+                    filterData?.map((el) => {
+                      return (
+                        <Tr mt={"30px"} borderBottom={"0.5px solid #787878"}>
+                          <Td>
+                            <Image
+                              borderRadius={"15px"}
+                              src={el.bookUserId.profileImage}
+                            />
+                          </Td>
+                          <Td>{el.event}</Td>
+                          <Td>{el.location}</Td>
+                          <Td>{el.date}</Td>
+                          <Td>{el.time}</Td>
+                          <Td>
+                            <Center>
+                              <Text
+                                p={"5px 20px"}
+                                borderRadius={"15px"}
+                                color={
+                                  el.status === "decline" ? "black" : "white"
+                                }
+                                bgColor={
+                                  el.status === "Pending"
+                                    ? "#FF3D14B2"
+                                    : el.status === "Accepted"
+                                    ? "#63D471"
+                                    : "#9A9898"
+                                }
+                              >
+                                {toPascalCase(el.status)}
+                              </Text>
+                            </Center>
+                          </Td>
+                        </Tr>
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Box>
         )}
       </Box>
-    </UserNav>
-  )
-}
+    </Nav>
+  );
+};
 
-export default UserBooking
+export default UserBooking;

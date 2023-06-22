@@ -79,4 +79,57 @@ const themeChanger = (payload) => (dispatch) => {
 const DJMenuChanger = (payload) => (dispatch) => {
   dispatch({ type: types.DJ_MENU, payload });
 };
-export { getDJMessageList, themeChanger, getDJBookingList, DJMenuChanger };
+const UserMenuChanger = (payload) => (dispatch) => {
+  dispatch({ type: types.USER_MENU, payload });
+};
+const getUserDJList=(token,toast)=>(dispatch)=>{
+  dispatch({ type: types.GET_USERDJLIST_REQUEST });
+  axios
+    .get(
+      `${process.env.REACT_APP_BACKEND_URL}/api/user/get-all-dj`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then((res) => {
+      dispatch({
+        type: types.GET_USERDJLIST_SUCCESS,
+        payload: res.data.data.dj,
+      });
+    })
+    .catch((err) => {
+      dispatch({ type: types.GET_DJMESSAGELIST_FAILURE });
+      toast({
+        title: err.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    });
+}
+const getUserBookingList = (token,toast) => (dispatch) => {
+  dispatch({ type: types.GET_USERBOOKINGLIST_REQUEST });
+  axios
+    .get(`${process.env.REACT_APP_BACKEND_URL}/api/booking/get-user-booking`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((rest) => {
+      let pload=rest.data.data.booking;
+          dispatch({ type: types.GET_USERBOOKINGLIST_SUCCESS,payload:pload });
+    })
+    .catch((err) => {
+      dispatch({ type: types.GET_USERBOOKINGLIST_FAILURE });
+      toast({
+        title: err.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    });
+};
+
+export { getDJMessageList, themeChanger, getDJBookingList, DJMenuChanger,UserMenuChanger,getUserDJList,getUserBookingList };

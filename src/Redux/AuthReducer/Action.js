@@ -45,3 +45,31 @@ export const logout = (toast) => (dispatch) => {
     dispatch({ type: types.SIGNOUT_FAILURE });
   }
 };
+export const profileUpdate=(token,toast)=>(dispatch)=>{
+  dispatch({ type: types.UPDATE_PROFILE_REQUEST });
+  axios
+    .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/get-user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((rest) => {
+      let pload=rest.data.data.user;
+          dispatch({ type: types.UPDATE_PROFILE_SUCCESS,payload:pload });
+          toast({
+            title: rest.data.message,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+    })
+    .catch((err) => {
+      dispatch({ type: types.UPDATE_PROFILE_FAILURE });
+      toast({
+        title: err.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    });
+}

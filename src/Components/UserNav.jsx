@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   IconButton,
   Avatar,
@@ -19,38 +19,42 @@ import {
   MenuItem,
   MenuList,
   Center,
-  Image,
   useToast,
   SimpleGrid,
 } from "@chakra-ui/react";
+
 import {
   FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
   FiSettings,
   FiMenu,
   FiBell,
   FiChevronDown,
   FiUser,
 } from "react-icons/fi";
+import { BsPersonPlusFill } from "react-icons/bs";
+import { GiLaurelsTrophy } from "react-icons/gi";
+import { FaHandshake } from "react-icons/fa";
+import { IoLogOut } from "react-icons/io5";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DJMenuChanger, themeChanger } from "../Redux/AppReducer/Action";
+import { UserMenuChanger, themeChanger } from "../Redux/AppReducer/Action";
+import { logout } from "../Redux/AuthReducer/Action";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, url: "/user" },
-  { name: "Booking Request", icon: FiTrendingUp, url: "/user" },
-  { name: "Dj of the Week", icon: FiCompass, url: "/dj/djoftheweek" },
-  { name: "Promos", icon: FiStar, url: "/dj/promos" },
-  { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
+  { name: "Home", icon: FiHome, url: "/dj" },
+  { name: "My Dj Booking", icon: BsPersonPlusFill, url: "/dj/book" },
   { name: "Messages", icon: FiUser, url: "/dj/messages" },
+  { name: "Booking Request", icon: GiLaurelsTrophy, url: "/dj/djoftheweek" },
+  { name: "Promos", icon: FaHandshake, url: "/dj/promos" },
+  { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
+  
 ];
 export function UserNav({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const theme = useSelector((store) => store.app.theme);
   return (
-    <Box>
+    <Box h={window.innerHeight} bgColor={theme === "light" ? "white" : "#0A0F1B"}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -68,12 +72,11 @@ export function UserNav({ children }) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <Box>
+      <Box bgColor={theme === "light" ? "white" : "#0A0F1B"}>
         <MobileNav onOpen={onOpen} />
         <Box
           pl={{ base: 0, md: 60 }}
           p="4"
-          
           bgColor={theme === "light" ? "white" : "#0A0F1B"}
         >
           {children}
@@ -84,31 +87,36 @@ export function UserNav({ children }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const toast = useToast();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout(toast));
+    navigate("/login");
+  };
   const theme = useSelector((store) => store.app.theme);
   const menu = useSelector((store) => store.app.djMenu);
   const dispatch = useDispatch();
-  const updateNav=(pos)=>{
-    dispatch(DJMenuChanger({name:pos}))
-  }
-  
-  
+
+  const updateNav = (pos) => {
+    dispatch(UserMenuChanger({ name: pos }));
+  };
+
   const handleTheme = () => {
-    if (theme==="light") {
+    if (theme === "light") {
       dispatch(themeChanger({ theme: "dark" }));
     } else {
       dispatch(themeChanger({ theme: "light" }));
     }
-    
   };
   return (
     <Box
+      position={"fixed"}
+      top={"0"}
+      left={"0"}
       bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
       w={{ base: "full", md: 60 }}
-      position="absolute"
-      left={"0"}
-      top={"0"}
-      zIndex={"99999"}
       h={"100%"}
+      zIndex={"99999"}
       {...rest}
     >
       <Flex
@@ -119,7 +127,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
       >
         <SimpleGrid
           ml={"40px"}
-          gap={"1px"}
           mt={"10px"}
           fontSize={"20px"}
           borderRadius={"50%"}
@@ -138,66 +145,100 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </SimpleGrid>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-          <Link to={link.url}>
-            <Box
-            minH={"50px"}
-              key={link.name}
-              p={"10px 0px"}
-              fontSize={"16px"}
-              w={"100%"}
-              mb={"10px"}
-              bgColor={menu===link.name?"rgba(0, 134, 255, 0.05)":""}
-              onClick={()=>updateNav(link.name)}
-              pl={"20px"}
-              color={menu===link.name?"#0086FF":theme==="light"?"#787878":"#B9B9B9"}
-              _hover={{ color: "#0086FF", bgColor: "rgba(0, 134, 255, 0.05)" }}
-            >
-              <Flex gap={"30px"}justifyContent={"space-between"}>
-                <Center>
-                  <link.icon />
-                </Center>
-                <Center>{link.name}</Center>
-                {
-                  menu===link.name?(
-                    <Box roundedLeft={"xl"} w={"10px"} h={"50px"} bgColor={"#0086FF"}></Box>
-                  ):(<Box h={"50px"}></Box>)
+      <Flex h={window.innerHeight-100} justifyContent={"space-between"} direction={"column"}>
+        <Box>
+          {LinkItems.map((link) => (
+            <Link to={link.url}>
+              <Box
+                minH={"50px"}
+                key={link.name}
+                p={"7px 0px"}
+                fontSize={"16px"}
+                w={"100%"}
+                mb={"10px"}
+                bgColor={menu === link.name ? "rgba(0, 134, 255, 0.05)" : ""}
+                onClick={() => updateNav(link.name)}
+                pl={"20px"}
+                color={
+                  menu === link.name
+                    ? "#0086FF"
+                    : theme === "light"
+                    ? "#787878"
+                    : "#B9B9B9"
                 }
-              </Flex>
-            </Box>
-          </Link>
-      ))}
-      <Box
-        mt={"200px"}
-        color={theme === "light" ? "#787878" : "#B9B9B9"}
-        cursor={"pointer"}
-      >
-        <Text cursor={"pointer"}>Logout</Text>
-      </Box>
-      <Box cursor={"pointer"} mt={"20px"} mb={"20px"}>
-        <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
-          <Text
-            mt={"-5px"}
-            border={"1px solid black"}
-            p={"0px 8px"}
-            bgColor={"white"}
-            borderRadius={"15px"}
+                _hover={{
+                  color: "#0086FF",
+                  bgColor: "rgba(0, 134, 255, 0.05)",
+                }}
+              >
+                <Flex justifyContent={"space-between"}>
+                  <Flex gap={"20px"}>
+                    <Center>
+                      <link.icon />
+                    </Center>
+                    <Center>{link.name}</Center>
+                  </Flex>
+                  {menu === link.name ? (
+                    <Box
+                      roundedLeft={"xl"}
+                      w={"10px"}
+                      h={"50px"}
+                      bgColor={"#0086FF"}
+                    ></Box>
+                  ) : (
+                    <Box h={"50px"}></Box>
+                  )}
+                </Flex>
+              </Box>
+            </Link>
+          ))}
+        </Box>
+        <Box>
+          <Flex
+            pl={"20px"}
+            gap={"20px"}
+            alignItems={"center"}
+            color={theme === "light" ? "#787878" : "#B9B9B9"}
+            cursor={"pointer"}
           >
-            Light
-          </Text>
-          <Switch size={"md"} id="themeSwitch" defaultChecked={theme==="dark"} onChange={() => handleTheme()} />
-          <Text
-            mt={"-5px"}
-            border={"0px solid black"}
-            bgColor={"black"}
-            color={"white"}
-            p={"0px 8px"}
-            borderRadius={"15px"}
-          >
-            Dark
-          </Text>
-        </Flex>
-      </Box>
+            <Center fontSize={"20px"}>
+              <IoLogOut />
+            </Center>
+            <Text cursor={"pointer"} onClick={handleLogout}>
+              Logout
+            </Text>
+          </Flex>
+          <Box cursor={"pointer"} mt={"20px"} mb={"20px"}>
+            <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
+              <Text
+                mt={"-5px"}
+                border={"1px solid black"}
+                p={"0px 8px"}
+                bgColor={"white"}
+                borderRadius={"15px"}
+              >
+                Light
+              </Text>
+              <Switch
+                size={"md"}
+                id="themeSwitch"
+                defaultChecked={theme === "dark"}
+                onChange={() => handleTheme()}
+              />
+              <Text
+                mt={"-5px"}
+                border={"0px solid black"}
+                bgColor={"black"}
+                color={"white"}
+                p={"0px 8px"}
+                borderRadius={"15px"}
+              >
+                Dark
+              </Text>
+            </Flex>
+          </Box>
+        </Box>
+      </Flex>
     </Box>
   );
 };
@@ -221,7 +262,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      
       bgColor={theme === "light" ? "white" : "#0A0F1B"}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
@@ -234,15 +274,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      <Text
-        display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <IconButton

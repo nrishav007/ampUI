@@ -1,11 +1,14 @@
 import * as types from "./ActionTypes";
 const initialState = {
   djMenu: "Home",
+  userMenu: "Home",
   isLoading: false,
   isError: false,
   theme: "light",
   djDMs: [],
-  djBook:[]
+  djBook:[],
+  userBook:[],
+  userDJList:[]
 };
 
 export const Reducer = (state = initialState, { type, payload }) => {
@@ -47,6 +50,42 @@ export const Reducer = (state = initialState, { type, payload }) => {
     case types.DJ_MENU: {
       return { ...state, djMenu: payload.name };
     }
+
+    case types.USER_MENU: {
+      return { ...state, userMenu: payload.name };
+    }
+
+    case types.GET_USERDJLIST_FAILURE: {
+      return { ...state, userDJList: [], isLoading: false, isError: true };
+    }
+
+    case types.GET_USERDJLIST_REQUEST: {
+      return { ...state, isLoading: true,userDJList:[], isError: false };
+    }
+    case types.GET_USERDJLIST_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        userDJList: payload,
+        isError: false,
+      };
+    }
+
+    case types.GET_USERBOOKINGLIST_REQUEST: {
+      return { ...state, isLoading: true,userBook:[], isError: false };
+    }
+    case types.GET_USERBOOKINGLIST_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        userBook: payload,
+        isError: false,
+      };
+    }
+    case types.GET_USERBOOKINGLIST_FAILURE: {
+      return { ...state, userBook: [], isLoading: false, isError: true };
+    }
+
     default:
       return state;
   }
