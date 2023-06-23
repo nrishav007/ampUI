@@ -5,7 +5,7 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import { encryptTransform } from "redux-persist-transform-encrypt";
-import storageSession from "redux-persist/lib/storage/session";
+import storage from 'redux-persist/lib/storage'
 const persistConfig = {
   transforms: [
     encryptTransform({
@@ -16,7 +16,7 @@ const persistConfig = {
     }),
   ],
   key: "persist-key",
-  storage: storageSession
+  storage
 };
 const authConfig = {
   transforms: [
@@ -28,7 +28,7 @@ const authConfig = {
     }),
   ],
   key: "auth",
-  storage: storageSession,
+  storage,
   blacklist:['isError']
 };
 const RootReducer = combineReducers({ app: AppReducer, auth: persistReducer(authConfig, AuthReducer) });

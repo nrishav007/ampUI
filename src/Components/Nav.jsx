@@ -22,7 +22,8 @@ import {
   useToast,
   SimpleGrid,
 } from "@chakra-ui/react";
-
+import {BsBrightnessHighFill} from "react-icons/bs"
+import {ImBrightnessContrast} from "react-icons/im"
 import {
   FiHome,
   FiSettings,
@@ -101,6 +102,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
   };
 
   const handleTheme = () => {
+    console.log("afyaiufh")
     if (theme === "light") {
       dispatch(themeChanger({ theme: "dark" }));
     } else {
@@ -207,33 +209,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
               Logout
             </Text>
           </Flex>
-          <Box cursor={"pointer"} mt={"20px"} mb={"20px"}>
-            <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
-              <Text
-                mt={"-5px"}
-                border={"1px solid black"}
-                p={"0px 8px"}
-                bgColor={"white"}
-                borderRadius={"15px"}
-              >
-                Light
-              </Text>
-              <Switch
-                size={"md"}
-                id="themeSwitch"
-                defaultChecked={theme === "dark"}
-                onChange={() => handleTheme()}
-              />
-              <Text
-                mt={"-5px"}
-                border={"0px solid black"}
-                bgColor={"black"}
-                color={"white"}
-                p={"0px 8px"}
-                borderRadius={"15px"}
-              >
-                Dark
-              </Text>
+          <Box cursor={"pointer"} w={"max-content"}mt={"15px"} ml={"20px"} mb={"40px"} p={"5px 8px"} border={"1px solid white"} bgColor={theme==="light"?"#ededed":"#0A0F1B"} borderRadius={"20px"} onClick={() => handleTheme()}>
+            <Flex gap={"5px"} direction={theme==="light"?"row-reverse":"row"}>
+              <Text color={theme==="light"?"black":"white"}>{theme==="light"?"Light ":"Dark"} Mode</Text>
+              <Box p={"4px"} borderRadius={"50%"} bgColor={"white"}>
+                {theme==="light"?<BsBrightnessHighFill/>:<ImBrightnessContrast/>}
+                
+              </Box>
             </Flex>
           </Box>
         </Box>
@@ -241,7 +223,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
     </Box>
   );
 };
-
 const MobileNav = ({ onOpen, ...rest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

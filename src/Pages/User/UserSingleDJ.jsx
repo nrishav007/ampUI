@@ -10,6 +10,7 @@ import profile from "../../Assets/profile.png";
 import { useNavigate, useParams } from "react-router-dom";
 const UserSingleDJ = () => {
   const navigate = useNavigate();
+  const dj = useSelector((store) => store.app.singleDJ);
   const { id } = useParams();
   const request=()=>{
     navigate(`/user/djbook/${id}`)
@@ -178,6 +179,7 @@ const UserSingleDJ = () => {
       rate: 5,
     },
   ];
+  console.log(dj.profileImage)
   return (
     <UserNav>
       <Box
@@ -197,7 +199,7 @@ const UserSingleDJ = () => {
               w={["full", "full", "full", "350px"]}
               vorder={"1px solid red"}
               backgroundImage={
-                "url(https://images.pexels.com/photos/1266760/pexels-photo-1266760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)"
+                `url(${dj.profileImage})`
               }
               backgroundSize={"cover"}
               backgroundRepeat={"no-repeat"}

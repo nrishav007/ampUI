@@ -98,14 +98,14 @@ const DJMessage = () => {
   return (
     <Nav>
       <Flex>
-        <Box w={"30%"} borderRight={"1px solid #787878"} p={"20px"}>
+        <Box w={"30%"} borderRight={"1px solid #787878"} p={"20px"} h={window.innerHeight+150}>
           <Flex direction={"column"}>
             {dms.map((el) => {
               let data = el._id[0];
               return (
                 <Flex
                   gap={"5px"}
-                  direction={["column", "column", "row", "row"]}
+                  direction={["column", "column", "column", "row"]}
                   cursor={"pointer"}
                   onClick={() => handleChat(el)}
                 >
@@ -125,7 +125,7 @@ const DJMessage = () => {
           </Flex>
         </Box>
         {chat.length > 0 ? (
-          <Box w={"full"} h={[window.innerHeight,window.innerHeight,window.innerHeight - 100,window.innerHeight - 100]}>
+          <Box w={"full"} h={[window.innerHeight,window.innerHeight,window.innerHeight,window.innerHeight]}>
             <Flex
               direction={"column"}
               justifyContent={"space-between"}
@@ -134,7 +134,6 @@ const DJMessage = () => {
               <Box>
                 <Box
                   p={"15px"}
-                  mb={"30px"}
                   bgColor={theme === "light" ? "white" : "#111823"}
                 >
                   <Flex
@@ -172,6 +171,11 @@ const DJMessage = () => {
                     </Flex>
                   </Flex>
                 </Box>
+                <Box h={"370px"} overflow={"scroll"} sx={{
+                              "::-webkit-scrollbar": {
+                                display: "none",
+                              },
+                            }}>
                 {chat.map((ele) => {
                   if (ele.userType === "user") {
                     return (
@@ -218,6 +222,7 @@ const DJMessage = () => {
                     );
                   }
                 })}
+                </Box>
               </Box>
               <Flex
                 bgColor={theme === "light" ? "white" : "#111823"}

@@ -5,115 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { RxDotsVertical } from 'react-icons/rx';
 import { BsFillCalendarEventFill,BsFillPlayFill } from 'react-icons/bs';
 import { AiFillStar } from 'react-icons/ai';
-import { getUserDJList } from "../../Redux/AppReducer/Action";
-const UserDashboard = () => {
+import { getUserDJList, userSingleDJ } from "../../Redux/AppReducer/Action";
+import { useNavigate } from "react-router-dom";
+const UserDjs = () => {
   const theme = useSelector((store) => store.app.theme);
   const token = useSelector((store) => store.auth.token);
   const djData=useSelector((store)=>store.app.userDJList);
   const toast=useToast();
+  const navigate=useNavigate();
   const dispatch=useDispatch();
+  const handleSingleDJ=(dj)=>{
+    dispatch(userSingleDJ(dj));
+    navigate("/user/singleDJ")
+  }
   useEffect(()=>{
     dispatch(getUserDJList(token,toast))
   },[dispatch,toast,token])
-  let data = [
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    {
-      name: "Dj Khalid",
-      genre: ["Rock", "Metal"],
-      rating: 4,
-      date: "Apr 26, 2023",
-    },
-    
-  ];
   let genre=["sp1","sp2","sp3","sp4","sp5","sp6","sp7","sp8","sp9","sp10","sp11","sp12",]
   return (
     <UserNav>
@@ -132,9 +39,8 @@ const UserDashboard = () => {
         <SimpleGrid columns={[1,1,2,3]} gap={"20px"}>
           {
             djData.length>0 && djData?.map((el,i)=>{
-
               return(
-                <Box color={"white"}  borderRadius={"15px"} key={i} p={"10px"} bgColor={i%2===0?"#63D471":"#B16668"}>
+                <Box color={"white"}  borderRadius={"15px"} key={i} p={"10px"} bgColor={i%2===0?"#63D471":"#B16668"} onClick={()=>handleSingleDJ(el)}>
                   <Flex gap={"10px"} direction={["column","column","column","column","row"]}>
                   <Image borderRadius={"15px"}w={"100px"} h={"100px"} src={el.profileImage} />
                   <Box textAlign={"left"} w={"full"}>
@@ -219,4 +125,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default UserDjs;

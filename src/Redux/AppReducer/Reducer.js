@@ -8,7 +8,8 @@ const initialState = {
   djDMs: [],
   djBook:[],
   userBook:[],
-  userDJList:[]
+  userDJList:[],
+  singleDJ:{}
 };
 
 export const Reducer = (state = initialState, { type, payload }) => {
@@ -85,7 +86,12 @@ export const Reducer = (state = initialState, { type, payload }) => {
     case types.GET_USERBOOKINGLIST_FAILURE: {
       return { ...state, userBook: [], isLoading: false, isError: true };
     }
-
+    case types.SINGLE_DJ:{
+      return {
+        ...state,
+        singleDJ:payload
+      }
+    }
     default:
       return state;
   }

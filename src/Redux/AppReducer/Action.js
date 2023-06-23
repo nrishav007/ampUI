@@ -29,7 +29,7 @@ const getDJMessageList = (payload, toast, token) => (dispatch) => {
     });
 };
 
-const getDJBookingList = (token,toast) => (dispatch) => {
+const getDJBookingList = (token, toast) => (dispatch) => {
   dispatch({ type: types.GET_DJBOOKINGLIST_REQUEST });
   axios
     .get(`${process.env.REACT_APP_BACKEND_URL}/api/booking/accept-booking`, {
@@ -48,8 +48,8 @@ const getDJBookingList = (token,toast) => (dispatch) => {
           }
         )
         .then((res) => {
-          let pload=rest.data.data.booking.concat(res.data.data.booking)
-          dispatch({ type: types.GET_DJBOOKINGLIST_SUCCESS,payload:pload });
+          let pload = rest.data.data.booking.concat(res.data.data.booking);
+          dispatch({ type: types.GET_DJBOOKINGLIST_SUCCESS, payload: pload });
         })
         .catch((err) => {
           dispatch({ type: types.GET_DJBOOKINGLIST_FAILURE });
@@ -82,17 +82,14 @@ const DJMenuChanger = (payload) => (dispatch) => {
 const UserMenuChanger = (payload) => (dispatch) => {
   dispatch({ type: types.USER_MENU, payload });
 };
-const getUserDJList=(token,toast)=>(dispatch)=>{
+const getUserDJList = (token, toast) => (dispatch) => {
   dispatch({ type: types.GET_USERDJLIST_REQUEST });
   axios
-    .get(
-      `${process.env.REACT_APP_BACKEND_URL}/api/user/get-all-dj`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/get-all-dj`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       dispatch({
         type: types.GET_USERDJLIST_SUCCESS,
@@ -108,8 +105,8 @@ const getUserDJList=(token,toast)=>(dispatch)=>{
         isClosable: true,
       });
     });
-}
-const getUserBookingList = (token,toast) => (dispatch) => {
+};
+const getUserBookingList = (token, toast) => (dispatch) => {
   dispatch({ type: types.GET_USERBOOKINGLIST_REQUEST });
   axios
     .get(`${process.env.REACT_APP_BACKEND_URL}/api/booking/get-user-booking`, {
@@ -118,8 +115,8 @@ const getUserBookingList = (token,toast) => (dispatch) => {
       },
     })
     .then((rest) => {
-      let pload=rest.data.data.booking;
-          dispatch({ type: types.GET_USERBOOKINGLIST_SUCCESS,payload:pload });
+      let pload = rest.data.data.booking;
+      dispatch({ type: types.GET_USERBOOKINGLIST_SUCCESS, payload: pload });
     })
     .catch((err) => {
       dispatch({ type: types.GET_USERBOOKINGLIST_FAILURE });
@@ -132,4 +129,16 @@ const getUserBookingList = (token,toast) => (dispatch) => {
     });
 };
 
-export { getDJMessageList, themeChanger, getDJBookingList, DJMenuChanger,UserMenuChanger,getUserDJList,getUserBookingList };
+const userSingleDJ=(payload)=>(dispatch)=>{
+  dispatch({ type: types.SINGLE_DJ, payload });
+}
+export {
+  getDJMessageList,
+  userSingleDJ,
+  themeChanger,
+  getDJBookingList,
+  DJMenuChanger,
+  UserMenuChanger,
+  getUserDJList,
+  getUserBookingList,
+};

@@ -22,7 +22,8 @@ import {
   useToast,
   SimpleGrid,
 } from "@chakra-ui/react";
-
+import {BsBrightnessHighFill} from "react-icons/bs"
+import {ImBrightnessContrast} from "react-icons/im"
 import {
   FiHome,
   FiSettings,
@@ -38,16 +39,16 @@ import { IoLogOut } from "react-icons/io5";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { UserMenuChanger, themeChanger } from "../Redux/AppReducer/Action";
+import { DJMenuChanger, UserMenuChanger, themeChanger } from "../Redux/AppReducer/Action";
 import { logout } from "../Redux/AuthReducer/Action";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, url: "/dj" },
-  { name: "My Dj Booking", icon: BsPersonPlusFill, url: "/dj/book" },
-  { name: "Messages", icon: FiUser, url: "/dj/messages" },
-  { name: "Booking Request", icon: GiLaurelsTrophy, url: "/dj/djoftheweek" },
-  { name: "Promos", icon: FaHandshake, url: "/dj/promos" },
-  { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
+  { name: "Home", icon: FiHome, url: "/user" },
+  { name: "My Dj Bookings", icon: BsPersonPlusFill, url: "/user/book" },
+  { name: "Messages", icon: FiUser, url: "/user/messages" },
+  { name: "Booking Request", icon: GiLaurelsTrophy, url: "/user/djoftheweek" },
+  { name: "Dj's", icon: FaHandshake, url: "/user/alldjs" },
+  { name: "Favourite", icon: FiSettings, url: "/user/djoftheweek" },
   
 ];
 export function UserNav({ children }) {
@@ -94,7 +95,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     navigate("/login");
   };
   const theme = useSelector((store) => store.app.theme);
-  const menu = useSelector((store) => store.app.djMenu);
+  const menu = useSelector((store) => store.app.userMenu);
   const dispatch = useDispatch();
 
   const updateNav = (pos) => {
@@ -102,6 +103,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
   };
 
   const handleTheme = () => {
+    console.log("afyaiufh")
     if (theme === "light") {
       dispatch(themeChanger({ theme: "dark" }));
     } else {
@@ -150,12 +152,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
           {LinkItems.map((link) => (
             <Link to={link.url}>
               <Box
-                minH={"50px"}
                 key={link.name}
                 p={"7px 0px"}
                 fontSize={"16px"}
                 w={"100%"}
-                mb={"10px"}
                 bgColor={menu === link.name ? "rgba(0, 134, 255, 0.05)" : ""}
                 onClick={() => updateNav(link.name)}
                 pl={"20px"}
@@ -208,33 +208,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
               Logout
             </Text>
           </Flex>
-          <Box cursor={"pointer"} mt={"20px"} mb={"20px"}>
-            <Flex justifyContent={"center"} gap={"10px"} fontSize={"18px"}>
-              <Text
-                mt={"-5px"}
-                border={"1px solid black"}
-                p={"0px 8px"}
-                bgColor={"white"}
-                borderRadius={"15px"}
-              >
-                Light
-              </Text>
-              <Switch
-                size={"md"}
-                id="themeSwitch"
-                defaultChecked={theme === "dark"}
-                onChange={() => handleTheme()}
-              />
-              <Text
-                mt={"-5px"}
-                border={"0px solid black"}
-                bgColor={"black"}
-                color={"white"}
-                p={"0px 8px"}
-                borderRadius={"15px"}
-              >
-                Dark
-              </Text>
+          <Box cursor={"pointer"} w={"max-content"}mt={"15px"} ml={"20px"} mb={"40px"} p={"5px 8px"} border={"1px solid white"} bgColor={theme==="light"?"#ededed":"#0A0F1B"} borderRadius={"20px"} onClick={() => handleTheme()}>
+            <Flex gap={"5px"} direction={theme==="light"?"row-reverse":"row"}>
+              <Text color={theme==="light"?"black":"white"}>{theme==="light"?"Light ":"Dark"} Mode</Text>
+              <Box p={"4px"} borderRadius={"50%"} bgColor={"white"}>
+                {theme==="light"?<BsBrightnessHighFill/>:<ImBrightnessContrast/>}
+                
+              </Box>
             </Flex>
           </Box>
         </Box>
@@ -242,14 +222,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
     </Box>
   );
 };
-
 const MobileNav = ({ onOpen, ...rest }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
-  const handleLogout = () => {
-    // dispatch(logout(toast));
-    navigate("/");
+  const handleProfile = () => {
+    navigate("/dj/profile");
   };
   const user = useSelector((store) => store.auth.user);
   const theme = useSelector((store) => store.app.theme);
@@ -317,11 +295,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
               borderColor={useColorModeValue("gray.200", "gray.700")}
               zIndex={"999"}
             >
-              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={handleProfile}>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+              {/* <MenuDivider /> */}
             </MenuList>
           </Menu>
         </Flex>

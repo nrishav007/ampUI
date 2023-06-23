@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Nav from "../../Components/Nav";
 import banner from "../../Assets/banner.jpg";
 import {
   Box,
@@ -20,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookingList } from "../../Redux/AppReducer/Action";
+import UserNav from "../../Components/UserNav";
 const UserBooking = () => {
   const [status, setStatus] = useState("all");
   const toast = useToast();
@@ -58,7 +58,7 @@ const UserBooking = () => {
   };
 
   return (
-    <Nav>
+    <UserNav>
       <Box mt={"30px"} >
         <Flex gap={"30px"} direction={["column","column","row","row"]} pl={["10px","10px","10px","74px"]}fontSize={["14px","16px","18px","20px"]}>
           <Box
@@ -222,7 +222,7 @@ const UserBooking = () => {
           </Box>
         )}
       </Box>
-    </Nav>
+    </UserNav>
   );
 };
 
