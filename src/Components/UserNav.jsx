@@ -46,9 +46,9 @@ const LinkItems = [
   { name: "Home", icon: FiHome, url: "/user" },
   { name: "My Dj Bookings", icon: BsPersonPlusFill, url: "/user/book" },
   { name: "Messages", icon: FiUser, url: "/user/messages" },
-  { name: "Booking Request", icon: GiLaurelsTrophy, url: "/user/djoftheweek" },
+  { name: "Booking Request", icon: GiLaurelsTrophy, url: "" },
   { name: "Dj's", icon: FaHandshake, url: "/user/alldjs" },
-  { name: "Favourite", icon: FiSettings, url: "/user/djoftheweek" },
+  { name: "Favourite", icon: FiSettings, url: "" },
   
 ];
 export function UserNav({ children }) {

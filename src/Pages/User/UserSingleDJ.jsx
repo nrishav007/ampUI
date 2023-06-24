@@ -1,20 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserNav from "../../Components/UserNav";
 import { Box, Center, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import { FaConciergeBell } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { BsFillCheckSquareFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import profile from "../../Assets/profile.png";
 import { useNavigate, useParams } from "react-router-dom";
+import { userSingleDJ } from "../../Redux/AppReducer/Action";
+import axios from "axios";
 const UserSingleDJ = () => {
   const navigate = useNavigate();
-  const dj = useSelector((store) => store.app.singleDJ);
+  const dispatch = useDispatch();
+  const [rate,setRate]=useState([]);
   const { id } = useParams();
-  const request=()=>{
-    navigate(`/user/djbook/${id}`)
-  }
+  useEffect(() => {
+    dispatch(userSingleDJ(id, token));
+    axios
+    .get(`${process.env.REACT_APP_BACKEND_URL}/api/booking/get-dj-rating/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res)=>{
+      setRate(res.data.data.rating);
+    })
+  }, []);
+  const dj = useSelector((store) => store.app.singleDJ);
+  const token = useSelector((store) => store.auth.token);
+  const request = () => {
+    navigate(`/user/djbook/${id}`);
+  };
   const theme = useSelector((store) => store.app.theme);
   const month = [
     "January",
@@ -159,27 +176,20 @@ const UserSingleDJ = () => {
         "https://images.pexels.com/photos/625644/pexels-photo-625644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
   ];
-  const rating = [
-    {
-      name: "Robert Smith",
-      description:
-        "Aliquam vitae dolor eu quam suscipit sodales. Curabitur metus leo, gravida eleifend magna in, fringilla finibus purus. Pellentesque quis lorem massa. Suspendisse eget nulla vel dolor rhoncus..",
-      rate: 3,
-    },
-    {
-      name: "Robert Smith",
-      description:
-        "Aliquam vitae dolor eu quam suscipit sodales. Curabitur metus leo, gravida eleifend magna in, fringilla finibus purus. Pellentesque quis lorem massa. Suspendisse eget nulla vel dolor rhoncus..",
-      rate: 4,
-    },
-    {
-      name: "Robert Smith",
-      description:
-        "Aliquam vitae dolor eu quam suscipit sodales. Curabitur metus leo, gravida eleifend magna in, fringilla finibus purus. Pellentesque quis lorem massa. Suspendisse eget nulla vel dolor rhoncus..",
-      rate: 5,
-    },
+  let genre = [
+    "sp1",
+    "sp2",
+    "sp3",
+    "sp4",
+    "sp5",
+    "sp6",
+    "sp7",
+    "sp8",
+    "sp9",
+    "sp10",
+    "sp11",
+    "sp12",
   ];
-  console.log(dj.profileImage)
   return (
     <UserNav>
       <Box
@@ -197,10 +207,8 @@ const UserSingleDJ = () => {
               borderRadius={"15px"}
               h={"400px"}
               w={["full", "full", "full", "350px"]}
-              vorder={"1px solid red"}
-              backgroundImage={
-                `url(${dj.profileImage})`
-              }
+              border={"1px solid red"}
+              backgroundImage={dj?.profileImage}
               backgroundSize={"cover"}
               backgroundRepeat={"no-repeat"}
               backgroundPosition={"center"}
@@ -249,27 +257,27 @@ const UserSingleDJ = () => {
               direction={["column", "row", "row", "row"]}
             >
               <Text fontWeight={"600"} fontSize={"22px"}>
-                DJ Khalid
+                {dj?.djName}
               </Text>
               <Center>
                 <Flex>
-                  <Box fontSize={"20px"} color={"#FAAE57"}>
+                  <Box fontSize={"20px"} color={dj.avgRating-1>=0?"#FAAE57":"#B9B9B9"}>
                     <AiFillStar />
                   </Box>
-                  <Box fontSize={"20px"} color={"#FAAE57"}>
+                  <Box fontSize={"20px"} color={dj.avgRating-2>=0?"#FAAE57":"#B9B9B9"}>
                     <AiFillStar />
                   </Box>
-                  <Box fontSize={"20px"} color={"#FAAE57"}>
+                  <Box fontSize={"20px"} color={dj.avgRating-3>=0?"#FAAE57":"#B9B9B9"}>
                     <AiFillStar />
                   </Box>
-                  <Box fontSize={"20px"} color={"#FAAE57"}>
+                  <Box fontSize={"20px"} color={dj.avgRating-4>=0?"#FAAE57":"#B9B9B9"}>
                     <AiFillStar />
                   </Box>
-                  <Box fontSize={"20px"} color={"#B9B9B9"}>
+                  <Box fontSize={"20px"} color={dj.avgRating-5>=0?"#FAAE57":"#B9B9B9"}>
                     <AiFillStar />
                   </Box>
                   <Text ml={"10px"} fontWeight={"500"}>
-                    4.0
+                  {dj?.avgRating?.toFixed(1)}
                   </Text>
                 </Flex>
               </Center>
@@ -280,10 +288,7 @@ const UserSingleDJ = () => {
                 textAlign={"left"}
                 w={["full", "full", "full", "350px"]}
               >
-                Aliquam vitae dolor eu quam suscipit sodales. Curabitur metus
-                leo, gravida eleifend magna in, fringilla finibus purus.
-                Pellentesque quis lorem massa. Suspendisse eget nulla vel dolor
-                rhoncus..
+                {dj?.djBio}
               </Text>
             </Box>
             <Flex
@@ -291,30 +296,21 @@ const UserSingleDJ = () => {
               gap={"10px"}
               direction={["column", "row", "row", "row"]}
             >
-              <Box
-                bgColor={"#63D471"}
-                color={"white"}
-                p={"5px 10px"}
-                borderRadius={"15px"}
-              >
-                Rock
-              </Box>
-              <Box
-                bgColor={"#63D471"}
-                color={"white"}
-                p={"5px 10px"}
-                borderRadius={"15px"}
-              >
-                Rock
-              </Box>
-              <Box
-                bgColor={"#63D471"}
-                color={"white"}
-                p={"5px 10px"}
-                borderRadius={"15px"}
-              >
-                Rock
-              </Box>
+              {genre.map((elem) => {
+                let name = elem;
+                if (dj[name] !== "") {
+                  return (
+                    <Box
+                      bgColor={"#63D471"}
+                      color={"white"}
+                      p={"5px 10px"}
+                      borderRadius={"15px"}
+                    >
+                      {dj[name]}
+                    </Box>
+                  );
+                }
+              })}
             </Flex>
           </Box>
           <Box textAlign={"left"} w={"full"}>
@@ -396,58 +392,58 @@ const UserSingleDJ = () => {
               >
                 Ratings
               </Text>
-              {rating.map(({ name, rate, description }) => {
+              {rate.map(({ feedback, rating, userId }) => {
                 return (
                   <Box mt={"10px"} mb={"20px"}>
                     <Flex
                       gap={"10px"}
                       direction={["column", "row", "row", "row"]}
                     >
-                      <Image src={profile} h={"50px"} w={"50px"} />
-                      <Flex gap={"10px"} direction={"column"}>
+                      <Image src={userId.profileImage} h={"50px"} w={"50px"} />
+                      <Flex gap={"10px"} direction={"column"} w={"100%"}>
                         <Flex
                           justifyContent={"space-between"}
                           gap={"10px"}
                           direction={["column", "row", "row", "row"]}
                         >
-                          <Text>{name}</Text>
+                          <Text>Name</Text>
                           <Flex>
                             <Box
                               fontSize={"20px"}
-                              color={rate >= 1 ? "#0086FF" : "#B9B9B9"}
+                              color={rating-1 >=0 ? "#0086FF" : "#B9B9B9"}
                             >
                               <AiFillStar />
                             </Box>
                             <Box
                               fontSize={"20px"}
-                              color={rate >= 2 ? "#0086FF" : "#B9B9B9"}
+                              color={rating-2 >=0 ? "#0086FF" : "#B9B9B9"}
                             >
                               <AiFillStar />
                             </Box>
                             <Box
                               fontSize={"20px"}
-                              color={rate >= 3 ? "#0086FF" : "#B9B9B9"}
+                              color={rating-3 >=0 ? "#0086FF" : "#B9B9B9"}
                             >
                               <AiFillStar />
                             </Box>
                             <Box
                               fontSize={"20px"}
-                              color={rate >= 4 ? "#0086FF" : "#B9B9B9"}
+                              color={rating-4 >=0 ? "#0086FF" : "#B9B9B9"}
                             >
                               <AiFillStar />
                             </Box>
                             <Box
                               fontSize={"20px"}
-                              color={rate >= 5 ? "#0086FF" : "#B9B9B9"}
+                              color={rating-5 >=0 ? "#0086FF" : "#B9B9B9"}
                             >
                               <AiFillStar />
                             </Box>
                             <Text ml={"10px"} fontWeight={"500"}>
-                              {rate.toFixed(1)}
+                              {rating.toFixed(1)}
                             </Text>
                           </Flex>
                         </Flex>
-                        <Text>{description}</Text>
+                        <Text>{feedback}</Text>
                       </Flex>
                     </Flex>
                   </Box>

@@ -1,11 +1,11 @@
 import axios from "axios";
 import * as types from "./ActionTypes";
 
-const getDJMessageList = (payload, toast, token) => (dispatch) => {
+const getDJMessageList = (payload, toast, token,type="dj") => (dispatch) => {
   dispatch({ type: types.GET_DJMESSAGELIST_REQUEST });
   axios
     .get(
-      `${process.env.REACT_APP_BACKEND_URL}/api/message/get-dj-message-list/${payload.id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/message/get-${type}-message-list/${payload.id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -129,8 +129,19 @@ const getUserBookingList = (token, toast) => (dispatch) => {
     });
 };
 
-const userSingleDJ=(payload)=>(dispatch)=>{
-  dispatch({ type: types.SINGLE_DJ, payload });
+const userSingleDJ=(id,token)=>(dispatch)=>{
+  dispatch({ type: types.SINGLE_DJ, payload:{} });
+  axios
+    .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/get-dj-detail/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res)=>{
+      dispatch({ type: types.SINGLE_DJ, payload:res.data.data.dj });
+    })
+  
+  
 }
 export {
   getDJMessageList,

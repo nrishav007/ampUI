@@ -15,8 +15,7 @@ const UserDjs = () => {
   const navigate=useNavigate();
   const dispatch=useDispatch();
   const handleSingleDJ=(dj)=>{
-    dispatch(userSingleDJ(dj));
-    navigate("/user/singleDJ")
+    navigate(`/user/singleDJ/${dj._id}`)
   }
   useEffect(()=>{
     dispatch(getUserDJList(token,toast))
