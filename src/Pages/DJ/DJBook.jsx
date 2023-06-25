@@ -16,10 +16,20 @@ import {
   Th,
   Td,
   TableCaption,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   TableContainer,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDJBookingList } from "../../Redux/AppReducer/Action";
+import axios from "axios";
 const DJBook = () => {
   const [status, setStatus] = useState("all");
   const toast = useToast();
@@ -28,6 +38,10 @@ const DJBook = () => {
   const theme = useSelector((store) => store.app.theme);
   const book = useSelector((store) => store.app.djBook);
   const dispatch = useDispatch();
+  const [upData, setUpData] = useState({
+    bookingId: "",
+    status: "",
+  });
   const filterBooking = () => {
     if (status !== "all") {
       let tempData = book?.filter((el) => el.status === status);
@@ -35,6 +49,27 @@ const DJBook = () => {
     } else {
       setFilterData(book);
     }
+  };
+  const updateStatus = (stat) => {
+    const temp = { ...upData };
+    temp.status = stat;
+    setUpData(temp);
+    console.log(upData)
+    // axios
+    //   .post(
+    //     `${process.env.REACT_APP_BACKEND_URL}/api/booking/update-booking-status`,
+    //     upData,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   )
+    //   .then(() => {
+    //     dispatch(getDJBookingList(token, toast));
+    //     filterBooking();
+    //     onClose();
+    //   });
   };
   useEffect(() => {
     dispatch(getDJBookingList(token, toast));
@@ -55,11 +90,63 @@ const DJBook = () => {
       )
       .replace(new RegExp(/\w/), (s) => s.toUpperCase());
   };
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const statusUpdate = (id, status) => {
+    if (status === "Pending") {
+      const temp = { ...upData };
+      temp.bookingId = id;
+      setUpData(temp);
+      onOpen();
+    }
+  };
   return (
     <Nav>
-      <Box mt={"30px"} >
-        <Flex gap={"30px"} direction={["column","column","row","row"]} pl={["10px","10px","10px","74px"]}fontSize={["14px","16px","18px","20px"]}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Choose Status</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex gap={"10px"}>
+              <Button
+                mb={"20px"}
+                mt={"20px"}
+                w={"100%"}
+                variant={"unstyled"}
+                bgColor={"green"}
+                color={"white"}
+                p={"0px 20px"}
+                _hover={{}}
+                borderRadius={"15px"}
+                onClick={() => updateStatus("Accepted")}
+              >
+                Accept
+              </Button>
+              <Button
+                w={"100%"}
+                mb={"20px"}
+                mt={"20px"}
+                variant={"unstyled"}
+                bgColor={"red"}
+                color={"white"}
+                p={"0px 20px"}
+                _hover={{}}
+                borderRadius={"15px"}
+                onClick={() => updateStatus("Decline")}
+              >
+                Decline
+              </Button>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Box mt={"30px"}>
+        <Flex
+          gap={"30px"}
+          direction={["column", "column", "row", "row"]}
+          pl={["10px", "10px", "10px", "74px"]}
+          fontSize={["14px", "16px", "18px", "20px"]}
+        >
           <Box
             bgColor={
               status === "all"
@@ -103,7 +190,6 @@ const DJBook = () => {
               fontFamily={"Poppins"}
               fontWeight={"500"}
               fontStyle={"normal"}
-              
               lineHeight={"30px"}
             >
               Requested
@@ -135,7 +221,7 @@ const DJBook = () => {
           </Box>
         </Flex>
         <Box
-           ml={["10px","10px","10px","54px"]}
+          ml={["10px", "10px", "10px", "54px"]}
           mt={"30px"}
           mb={"30px"}
           border={"0.5px solid #787878"}
@@ -145,7 +231,7 @@ const DJBook = () => {
             <Text>No Data available</Text>
           </Box>
         ) : (
-          <Box ml={["10px","10px","10px","54px"]}>
+          <Box ml={["10px", "10px", "10px", "54px"]}>
             <TableContainer>
               <Table
                 variant={"unstyled"}
@@ -183,6 +269,10 @@ const DJBook = () => {
                               <Text
                                 p={"5px 20px"}
                                 borderRadius={"15px"}
+                                cursor={
+                                  el.status === "Pending" ? "pointer" : null
+                                }
+                                onClick={() => statusUpdate(el._id, el.status)}
                                 color={
                                   el.status === "decline" ? "black" : "white"
                                 }
