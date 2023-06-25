@@ -54,22 +54,21 @@ const DJBook = () => {
     const temp = { ...upData };
     temp.status = stat;
     setUpData(temp);
-    console.log(upData)
-    // axios
-    //   .post(
-    //     `${process.env.REACT_APP_BACKEND_URL}/api/booking/update-booking-status`,
-    //     upData,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   )
-    //   .then(() => {
-    //     dispatch(getDJBookingList(token, toast));
-    //     filterBooking();
-    //     onClose();
-    //   });
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/booking/update-booking-status`,
+        temp,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        dispatch(getDJBookingList(token, toast));
+        filterBooking();
+        onClose();
+      });
   };
   useEffect(() => {
     dispatch(getDJBookingList(token, toast));
@@ -78,7 +77,7 @@ const DJBook = () => {
 
   useEffect(() => {
     filterBooking();
-  }, [status]);
+  }, [status,book]);
   const toPascalCase = (string) => {
     return `${string}`
       .toLowerCase()
