@@ -22,16 +22,18 @@ import {
 import bookSuccess from "../../Assets/bookSuccess.png";
 import userBook from "../../Assets/userBook.png";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 const UserDJBook = () => {
   const theme = useSelector((store) => store.app.theme);
   const token = useSelector((store) => store.auth.token);
+  const navigate=useNavigate();
   const toast = useToast();
   const { id } = useParams();
+  const date = useSelector((store) => store.app.date);
   const [bookData, setBookData] = useState({
     djId: id,
-    date: "",
+    date: date||"",
     time: "",
     event: "",
     eventDuration: "",
@@ -58,6 +60,13 @@ const UserDJBook = () => {
           onOpen();
           setTimeout(() => {
             onClose();
+            toast({
+              title: 'Booking Successful',
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+            navigate(`/user/singleDJ/${id}`);
           }, 2000);
         });
     } catch (error) {
@@ -129,50 +138,51 @@ const UserDJBook = () => {
             borderRadius={"15px"}
             placeholder={"Event Duration (hr)"}
           />
-          <Select
+          <Input
             onChange={(e) => handleInput(e)}
             name="time"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
+            placeholder="Time (9:30 PM)"
           >
-            <option hidden>Time (9:30 PM)</option>
-          </Select>
+          </Input>
           <Input
             onChange={(e) => handleInput(e)}
             name="date"
+            defaultValue={bookData.date}
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             placeholder={"Dates (20/02/2022)"}
           />
-          <Select
+          <Input
             onChange={(e) => handleInput(e)}
             name="location"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
+            placeholder="Location/ Venue (Brooklyn)"
           >
-            <option hidden>Location/ Venue (Brooklyn)</option>
-          </Select>
-          <Select
+          </Input>
+          <Input
             onChange={(e) => handleInput(e)}
             name="listEquipments"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
+            placeholder="List Equipments"
           >
-            <option hidden>List Equipments</option>
-          </Select>
-          <Select
+          </Input>
+          <Input
             onChange={(e) => handleInput(e)}
             name="additionalEquipments"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
+            placeholder="Additional Equipment"
           >
-            <option hidden>Additional Equipment</option>
-          </Select>
+          </Input>
         </SimpleGrid>
         <Center mt={"30px"}>
           <Button

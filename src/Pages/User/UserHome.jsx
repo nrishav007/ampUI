@@ -28,7 +28,7 @@ import {
 } from "react-icons/bs";
 import { GoPlus } from "react-icons/go";
 import { CgSmileMouthOpen } from "react-icons/cg";
-const UserFav = () => {
+const UserHome = () => {
   const djEvennts = [
     {
       name: "rishav",
@@ -191,16 +191,23 @@ const UserFav = () => {
   const theme = useSelector((store) => store.app.theme);
   return (
     <UserNav>
-      <Box >
+      <Box>
         <Flex
-        direction={["column","column","column","row"]}
-          ml={["10px","10px","10px","30px","30px"]}
+          direction={["column", "column", "column", "row"]}
+          ml={["10px", "10px", "10px", "30px", "30px"]}
           gap={"10px"}
           color={theme === "light" ? "black" : "white"}
           textAlign={"left"}
         >
-          <Box borderRadius={"15px"} w={["100%","100%","100%","50%","50%"]} p={"10px"}>
-            <Flex justifyContent={"space-between"} direction={["column","column","column","row"]}>
+          <Box
+            borderRadius={"15px"}
+            w={["100%", "100%", "100%", "50%", "50%"]}
+            p={"10px"}
+          >
+            <Flex
+              justifyContent={"space-between"}
+              direction={["column", "column", "column", "row"]}
+            >
               <Flex
                 gap={"10px"}
                 borderRadius={"15px"}
@@ -260,7 +267,11 @@ const UserFav = () => {
                     <Text mt={"30px"} fontSize={"14px"}>
                       {el.description}
                     </Text>
-                    <Flex gap={"10px"} mt={"20px"} direction={["column","column","column","row"]}>
+                    <Flex
+                      gap={"10px"}
+                      mt={"20px"}
+                      direction={["column", "column", "column", "row"]}
+                    >
                       <Image h={"220px"} src={post1} />
                       <Flex gap={"10px"} direction={"column"}>
                         <Image h={"100px"} src={post2} />
@@ -268,8 +279,8 @@ const UserFav = () => {
                       </Flex>
                     </Flex>
                     <SimpleGrid
-                    columns={[1,2,3,4]}
-                    gap={"5px"}
+                      columns={[1, 2, 3, 4]}
+                      gap={"5px"}
                       m={"0px 20px"}
                       color={"#B9B9B9"}
                       mt={"20px"}
@@ -418,7 +429,7 @@ const UserFav = () => {
             </Flex>
           </Box>
           <Box
-            w={["100%","100%","100%","25%","25%"]}
+            w={["100%", "100%", "100%", "25%", "25%"]}
             bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
             borderRadius={"15px"}
             h={"full"}
@@ -429,7 +440,10 @@ const UserFav = () => {
                 {dj.map((el) => {
                   return (
                     <Flex m={"10px 0px"} justifyContent={"space-between"}>
-                      <Flex gap={"10px"} direction={["column","column","row","column","row"]}>
+                      <Flex
+                        gap={"10px"}
+                        direction={["column", "column", "row", "column", "row"]}
+                      >
                         <Image h={"50px"} src={profile} />
                         <Center>
                           <Text>{el.name}</Text>
@@ -486,4 +500,4 @@ const UserFav = () => {
   );
 };
 
-export default UserFav;
+export default UserHome;

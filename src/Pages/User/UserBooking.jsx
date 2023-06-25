@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import banner from "../../Assets/banner.jpg";
 import {
   Box,
@@ -25,19 +25,65 @@ import {
   TableContainer,
   useDisclosure,
   Button,
+  Textarea,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
+import { AiFillStar } from "react-icons/ai";
 import { getUserBookingList } from "../../Redux/AppReducer/Action";
 import UserNav from "../../Components/UserNav";
+import axios from "axios";
 const UserBooking = () => {
+  
   const [status, setStatus] = useState("all");
   const toast = useToast();
+  const [feedback, setFeedback] = useState("");
   const token = useSelector((store) => store.auth.token);
   const [filterData, setFilterData] = useState([]);
   const theme = useSelector((store) => store.app.theme);
-  const [rateDJ,setRateDJ]=useState({});
+  const [rateDJ, setRateDJ] = useState({});
+  const [star, setStar] = useState(0);
   const book = useSelector((store) => store.app.userBook);
   const dispatch = useDispatch();
+  const handleDJRateSubmit = () => {
+    const payload = {
+      djId: rateDJ.djId._id,
+      feedback: feedback,
+      rating: star,
+      ratingStatus: true,
+    };
+    console.log(payload);
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/booking/create-rating`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        toast({
+          title: res.data.message,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: err.response.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+      onClose();
+      setStar(0);
+      setFeedback("");
+      setRateDJ({});
+  };
+
   const filterBooking = () => {
     if (status !== "all") {
       let tempData;
@@ -53,7 +99,7 @@ const UserBooking = () => {
       setFilterData(book);
     }
   };
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
     dispatch(getUserBookingList(token, toast));
     filterBooking();
@@ -73,32 +119,108 @@ const UserBooking = () => {
       )
       .replace(new RegExp(/\w/), (s) => s.toUpperCase());
   };
-const handleDJRate=(dj)=>{
-  setRateDJ(dj);
-  console.log(dj)
-  onOpen();
-}
+  const handleDJRate = (dj) => {
+    setRateDJ(dj);
+    console.log(dj);
+    onOpen();
+  };
   return (
     <UserNav>
       <Box mt={"30px"}>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Rate Me</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-           <Image w={"100%"} borderRadius={"15px"} h={"200px"} src={rateDJ?.djId?.profileImage} />
-           <Center>{rateDJ?.djId?.djName}</Center>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant='ghost'>Secondary Action</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent
+            color={theme === "light" ? "black" : "white"}
+            bgColor={theme === "light" ? "white" : "#0A0F1B"}
+          >
+            <ModalHeader>Rate Me</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Image
+                w={"100%"}
+                borderRadius={"15px"}
+                h={"200px"}
+                src={rateDJ?.djId?.profileImage}
+              />
+              <Center
+                fontSize={"24px"}
+                fontWeight={"600"}
+                fontFamily={"Poppins"}
+              >
+                {rateDJ?.djId?.djName}
+              </Center>
+              <Center
+                fontSize={"20px"}
+                fontWeight={"400"}
+                fontFamily={"Poppins"}
+              >
+                Please rate his service 5 out of ?
+              </Center>
+              <Center>
+                <Box
+                  fontSize={"30px"}
+                  color={star >= 1 ? "#0086FF" : "gray.300"}
+                  onClick={() => setStar(1)}
+                >
+                  <AiFillStar />
+                </Box>
+                <Box
+                  fontSize={"30px"}
+                  color={star >= 2 ? "#0086FF" : "gray.300"}
+                  onClick={() => setStar(2)}
+                >
+                  <AiFillStar />
+                </Box>
+                <Box
+                  fontSize={"30px"}
+                  color={star >= 3 ? "#0086FF" : "gray.300"}
+                  onClick={() => setStar(3)}
+                >
+                  <AiFillStar />
+                </Box>
+                <Box
+                  fontSize={"30px"}
+                  color={star >= 4 ? "#0086FF" : "gray.300"}
+                  onClick={() => setStar(4)}
+                >
+                  <AiFillStar />
+                </Box>
+                <Box
+                  fontSize={"30px"}
+                  color={star >= 5 ? "#0086FF" : "gray.300"}
+                  onClick={() => setStar(5)}
+                >
+                  <AiFillStar />
+                </Box>
+              </Center>
+              <Textarea
+                onChange={(e)=>setFeedback(e.target.value)}
+                defaultValue={feedback}
+                placeholder="Additional Feedback"
+                color={theme==="light"?"black":"white"}
+                bgColor={theme==="light"?"white":"#181D29"}
+                mt={"10px"}
+                resize={"none"}
+              />
+              <Center>
+                <Button
+                isDisabled={feedback===""&&star>0}
+                  mb={"20px"}
+                  onClick={handleDJRateSubmit}
+                  mt={"20px"}
+                  variant={"unstyled"}
+                  bgColor={"#0086FF"}
+                  color={"white"}
+                  p={"0px 20px"}
+                  _hover={{}}
+                  borderRadius={"15px"}
+                >
+                  Submit
+                </Button>
+              </Center>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
         <Flex
           gap={"30px"}
           direction={["column", "column", "row", "row"]}
@@ -257,14 +379,33 @@ const handleDJRate=(dj)=>{
                             </Td>
                           ) : null}
                           {status === "all" ? null : status === "Pending" ? (
-                      <Td>
-                        <Center fontWeight={"600"} bgColor={"#0086FF"} p={"10px"} borderRadius={"15px"} fontSize={"16px"} color={"white"}>See Here</Center>
-                      </Td>
-                    ) : (
-                      <Td>
-                        <Center fontWeight={"600"} bgColor={"#0086FF"} p={"10px"} borderRadius={"15px"} fontSize={"16px"} color={"white"} onClick={()=>handleDJRate(el)}>Rate DJ</Center>
-                      </Td>
-                    )}
+                            <Td>
+                              <Center
+                                fontWeight={"600"}
+                                bgColor={"#0086FF"}
+                                p={"10px"}
+                                borderRadius={"15px"}
+                                fontSize={"16px"}
+                                color={"white"}
+                              >
+                                See Here
+                              </Center>
+                            </Td>
+                          ) : (
+                            <Td>
+                              <Center
+                                fontWeight={"600"}
+                                bgColor={"#0086FF"}
+                                p={"10px"}
+                                borderRadius={"15px"}
+                                fontSize={"16px"}
+                                color={"white"}
+                                onClick={() => handleDJRate(el)}
+                              >
+                                Rate DJ
+                              </Center>
+                            </Td>
+                          )}
                         </Tr>
                       );
                     })}

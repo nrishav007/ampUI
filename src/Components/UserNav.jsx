@@ -48,7 +48,7 @@ const LinkItems = [
   { name: "Messages", icon: FiUser, url: "/user/messages" },
   { name: "Booking Request", icon: GiLaurelsTrophy, url: "" },
   { name: "Dj's", icon: FaHandshake, url: "/user/alldjs" },
-  { name: "Favourite", icon: FiSettings, url: "" },
+  { name: "Favourite", icon: FiSettings, url: "/user/favourites" },
   
 ];
 export function UserNav({ children }) {
@@ -103,7 +103,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
   };
 
   const handleTheme = () => {
-    console.log("afyaiufh")
     if (theme === "light") {
       dispatch(themeChanger({ theme: "dark" }));
     } else {
@@ -227,7 +226,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useNavigate();
   const toast = useToast();
   const handleProfile = () => {
-    navigate("/dj/profile");
+    navigate("/user/profile");
   };
   const user = useSelector((store) => store.auth.user);
   const theme = useSelector((store) => store.app.theme);
@@ -280,10 +279,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{user.name}</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    {user.administration}
-                  </Text>
+                  <Text fontSize="sm">{user.djName}</Text>
+
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
@@ -296,8 +293,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
               zIndex={"999"}
             >
               <MenuItem onClick={handleProfile}>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
               {/* <MenuDivider /> */}
             </MenuList>
           </Menu>

@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   theme: "light",
+  date:"",
   djDMs: [],
   djBook:[],
   userBook:[],
@@ -90,6 +91,12 @@ export const Reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         singleDJ:payload
+      }
+    }
+    case types.BOOKING_DAY:{
+      return{
+        ...state,
+        date:payload.date
       }
     }
     default:
