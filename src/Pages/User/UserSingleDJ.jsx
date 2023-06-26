@@ -178,8 +178,8 @@ const UserSingleDJ = () => {
           });
           onClose();
         });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       toast({
         title: err.response.data.message,
         status: "error",
