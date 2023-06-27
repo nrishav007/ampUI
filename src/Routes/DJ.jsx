@@ -6,6 +6,7 @@ import DJBook from "../Pages/DJ/DJBook";
 import DJMessage from "../Pages/DJ/DJMessage";
 import DJPromos from "../Pages/DJ/DJPromos";
 import DJProfile from "../Pages/DJ/DJProfile";
+import DJReviews from "../Pages/DJ/DJReviews";
 
 const DJ = () => {
   return (
@@ -16,6 +17,7 @@ const DJ = () => {
       <Route path="/profile" element={<DJProfile />} />
       <Route path="/messages" element={<DJMessage />} />
       <Route path="/promos" element={<DJPromos />} />
+      <Route path="/reviews" element={<DJReviews />} />
     </Routes>
   );
 };

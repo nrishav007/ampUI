@@ -18,6 +18,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
+import { DJMenuChanger, UserMenuChanger } from "../Redux/AppReducer/Action";
 const LoginView = () => {
   const email = useRef();
   const password = useRef();
@@ -74,7 +75,10 @@ const LoginView = () => {
         const payload = {};
         payload.email = email.current.value;
         payload.password = password.current.value;
+        dispatch(DJMenuChanger({ name: "Home" }));
+        dispatch(UserMenuChanger({ name: "Home" }));
         dispatch(login(payload, toast, navigate));
+        
       }
     } else {
       toast({

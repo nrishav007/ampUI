@@ -47,7 +47,7 @@ const LinkItems = [
   { name: "Booking Request", icon: BsPersonPlusFill, url: "/dj/book" },
   { name: "Dj of the Week", icon: GiLaurelsTrophy, url: "/dj/djoftheweek" },
   { name: "Promos", icon: FaHandshake, url: "/dj/promos" },
-  { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/djoftheweek" },
+  { name: "Reviews/Ratings", icon: FiSettings, url: "/dj/reviews" },
   { name: "Messages", icon: FiUser, url: "/dj/messages" },
 ];
 export function Dashboard({ children }) {
@@ -242,6 +242,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       height="20"
       alignItems="center"
       bgColor={theme === "light" ? "white" : "#0A0F1B"}
+      color={theme==="light"?"black":"white"}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
@@ -297,8 +298,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
               zIndex={"999"}
             >
               <MenuItem onClick={handleProfile}>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
               {/* <MenuDivider /> */}
             </MenuList>
           </Menu>

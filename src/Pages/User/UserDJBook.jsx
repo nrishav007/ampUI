@@ -117,7 +117,7 @@ const UserDJBook = () => {
       >
         <Image src={userBook} />
         <SimpleGrid
-          p={["", "", "0px 100px", "0px 100px"]}
+          p={["", "", "0px 100px", "0px 200px"]}
           mt={"20px"}
           columns={[1, 1, 2, 2]}
           gap={["20px", "20px", "20px", "60px"]}

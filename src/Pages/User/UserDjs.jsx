@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UserNav from "../../Components/UserNav";
-import djBanner from "../../Assets/djBanner.png"
+import djBanner from "../../Assets/djBanner.png";
 import {
   Box,
   Center,
@@ -104,6 +104,7 @@ const UserDjs = () => {
   const [sound, setSound] = useState(initSound);
   const [star, setStar] = useState(0);
   const theme = useSelector((store) => store.app.theme);
+  const load = useSelector((store) => store.app.isLoading);
   const token = useSelector((store) => store.auth.token);
   const djData = useSelector((store) => store.app.userDJList);
   const toast = useToast();
@@ -362,7 +363,11 @@ const UserDjs = () => {
             </Box>
           </Center>
         </Flex>
-        {djData.length <= 0 ? (
+        {load ? (
+          <Center color={theme === "light" ? "black" : "white"}>
+            Loading...
+          </Center>
+        ) : djData.length <= 0 && load !== true ? (
           <Center color={theme === "light" ? "black" : "white"}>
             No DJ Found
           </Center>

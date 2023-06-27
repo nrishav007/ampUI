@@ -240,6 +240,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       height="20"
       alignItems="center"
       bgColor={theme === "light" ? "white" : "#0A0F1B"}
+      color={theme==="light"?"black":"white"}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}

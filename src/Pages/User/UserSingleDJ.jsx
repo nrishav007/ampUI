@@ -26,7 +26,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FaConciergeBell } from "react-icons/fa";
-import { AiFillStar } from "react-icons/ai";
+import {
+  AiFillStar,
+  AiOutlineArrowRight,
+  AiOutlineArrowLeft,
+} from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,21 +86,47 @@ const UserSingleDJ = () => {
     "November",
     "December",
   ];
-  const handleBookFromCalender=(calenderDay,calenderMonth,calenderYear,currentDay)=>{
-    if(calenderDay>=currentDay){
-      const fullBookingDate=`${calenderDay}/${calenderMonth}/${calenderYear}`
-      dispatch(bookingDate(fullBookingDate));
+  const dt = new Date();
+  const nowD = dt.getDate();
+  const nowM = dt.getMonth() + 1;
+  const nowY = dt.getFullYear();
+  const fullCurrentDate = new Date(nowY, nowM - 1, nowD);
+  const handleBookFromCalender = (day, month, year) => {
+    const fullBookingDate = new Date(year, month - 1, day);
+    if (fullBookingDate >= fullCurrentDate) {
+      let newMon;
+      if (month < 10) {
+        newMon = `0${month}`;
+      } else {
+        newMon = `${month}`;
+      }
+      const book = `${day}/${newMon}/${year}`;
+      dispatch(bookingDate(book));
       request();
     }
-  }
+  };
+
   const book = useSelector((store) => store.app.userBook);
   const dat = new Date();
-  const cmonth = month[dat.getMonth()];
-  const year = dat.getFullYear();
-  const cdate = dat.getDate();
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+  const [currentMonth, setMonth] = useState(new Date().getMonth());
+  const [currentYear, setYear] = useState(new Date().getFullYear());
+  const cmonth = month[currentMonth];
+  const year = currentYear;
+  const handlePrevMonth = () => {
+    setMonth((prevMonth) => {
+      const newMonth = prevMonth === 0 ? 11 : prevMonth - 1;
+      setYear((prevYear) => (newMonth === 11 ? prevYear - 1 : prevYear));
+      return newMonth;
+    });
+  };
+
+  const handleNextMonth = () => {
+    setMonth((prevMonth) => {
+      const newMonth = prevMonth === 11 ? 0 : prevMonth + 1;
+      setYear((prevYear) => (newMonth === 0 ? prevYear + 1 : prevYear));
+      return newMonth;
+    });
+  };
 
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -108,10 +138,10 @@ const UserSingleDJ = () => {
   for (let i = 0; i < firstDay; i++) {
     calendarDays.push(<Td key={`empty-${i}`} />);
   }
-
   for (let day = 1; day <= totalDays; day++) {
     let date = day;
-    let month = currentMonth + 1>=10?currentMonth + 1:`0${currentMonth + 1}`;
+    let month =
+      currentMonth + 1 >= 10 ? currentMonth + 1 : `0${currentMonth + 1}`;
     let year = currentYear;
     let fullDate = `${date}/${month}/${year}`;
     const temp = book.filter((el) => el.date == fullDate);
@@ -126,7 +156,20 @@ const UserSingleDJ = () => {
         </Td>
       );
     } else {
-      calendarDays.push(<Td cursor={"pointer"} onClick={()=>handleBookFromCalender(day,month,year,cdate)} key={day}><Box color={day<cdate?"grat":null}>{day}</Box></Td>);
+      const fullnewDate = new Date(currentYear, currentMonth, day);
+      calendarDays.push(
+        <Td
+          cursor={fullnewDate <= fullCurrentDate ? "not-allowed" : "pointer"}
+          onClick={() =>
+            handleBookFromCalender(day, currentMonth + 1, currentYear)
+          }
+          key={day}
+        >
+          <Box color={fullnewDate <= fullCurrentDate ? "gray" : null}>
+            {day}
+          </Box>
+        </Td>
+      );
     }
   }
 
@@ -245,7 +288,6 @@ const UserSingleDJ = () => {
               borderRadius={"15px"}
               h={"400px"}
               w={["full", "full", "full", "350px"]}
-              border={"1px solid red"}
               backgroundImage={dj?.profileImage}
               backgroundSize={"cover"}
               backgroundRepeat={"no-repeat"}
@@ -389,9 +431,24 @@ const UserSingleDJ = () => {
                 direction={["column", "column", "column", "row"]}
                 borderBottom={"0.5px solid #B9B9B9"}
               >
-                <Text fontSize={"20px"} fontWeight={"500"}>
-                  {cmonth}, {year}
-                </Text>
+                <Flex>
+                  <Button variant={"unstyled"} onClick={handlePrevMonth}>
+                    {" "}
+                    <Center>
+                      <AiOutlineArrowLeft />
+                    </Center>{" "}
+                  </Button>
+                  <Center>
+                    <Text fontSize={"20px"} fontWeight={"500"}>
+                      {cmonth}, {year}
+                    </Text>
+                  </Center>
+                  <Button variant={"unstyled"} onClick={handleNextMonth}>
+                    <Center>
+                      <AiOutlineArrowRight />
+                    </Center>{" "}
+                  </Button>
+                </Flex>
                 <Flex gap={"10px"} direction={["column", "row", "row", "row"]}>
                   <Flex gap={"5px"} color={"#0086FF"}>
                     <Center>
@@ -451,7 +508,7 @@ const UserSingleDJ = () => {
                           gap={"10px"}
                           direction={["column", "row", "row", "row"]}
                         >
-                          <Text>Name</Text>
+                          <Text>{userId.djName}</Text>
                           <Flex>
                             <Box
                               fontSize={"20px"}

@@ -105,6 +105,7 @@ const UserMessage = () => {
           borderRight={"1px solid #787878"}
           p={"20px"}
           h={window.innerHeight + 150}
+          zIndex={"0"}
         >
           <Flex direction={"column"} gap={"10px"}>
             {dms.map((el) => {
@@ -116,14 +117,14 @@ const UserMessage = () => {
                   cursor={"pointer"}
                   onClick={() => handleChat(el)}
                 >
-                  <Image h={"50px"} src={data.profileImage} />
+                  <Image h={"60px"} w={"60px"} borderRadius={"50%"} src={data.profileImage} />
                   <Center>
                     <Text
                       cursor={"pointer"}
                       fontSize={["14px", "16px", "18px", "20px"]}
                       color={theme === "light" ? "black" : "white"}
                     >
-                      {data.email}
+                      {data.djName}
                     </Text>
                   </Center>
                 </Flex>
@@ -133,7 +134,8 @@ const UserMessage = () => {
         </Box>
         {chat.length > 0 ? (
           <Box
-            w={"full"}
+          zIndex={"99999999"}
+            w={"65%"}
             h={[
               window.innerHeight,
               window.innerHeight,
@@ -164,7 +166,7 @@ const UserMessage = () => {
                       gap={"10px"}
                       direction={["column", "row", "row", "row"]}
                     >
-                      <Image h={"50px"} w={"50px"} src={userImage} />
+                      <Image h={"50px"} w={"50px"} borderRadius={"50%"} src={userImage} />
                       <Text color={theme === "light" ? "black" : "white"}>
                         Name
                       </Text>
@@ -209,7 +211,7 @@ const UserMessage = () => {
                           mb={"10px"}
                           color={"white"}
                         >
-                          <Image h={"30px"} src={userImage} />
+                          <Image h={"50px"} w={"50px"} borderRadius={"50%"} src={userImage} />
                           <Center>
                             <Text
                               p={"10px 20px"}
@@ -239,7 +241,7 @@ const UserMessage = () => {
                               {ele.message}
                             </Text>
                           </Center>
-                          <Image h={"30px"} src={user.profileImage} />
+                          <Image h={"50px"} w={"50px"} borderRadius={"50%"} src={user.profileImage} />
                         </Flex>
                       );
                     }
