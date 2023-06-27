@@ -23,7 +23,7 @@ const DJProfile = () => {
   const theme = useSelector((store) => store.app.theme);
   const user = useSelector((store) => store.auth.user);
   const token = useSelector((store) => store.auth.token);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const toast = useToast();
   const handlePref = (i) => {
     const tempS = [...sound];
@@ -39,7 +39,11 @@ const DJProfile = () => {
     setPayload(tempP);
   };
   const [payload, setPayload] = useState({});
-  const initSound=[
+  const [info, setInfo] = useState({
+    djName: user.djName,
+    djBio: user.djBio,
+  });
+  const initSound = [
     {
       name: "Afrobeats",
       key: "sp1",
@@ -100,85 +104,132 @@ const DJProfile = () => {
       key: "sp12",
       active: false,
     },
-  ]
+  ];
   const [sound, setSound] = useState(initSound);
   const [profileImage, setProfileImage] = useState("");
   const upateProfileImage = (profileimage) => {
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/update-profile`, profileimage, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then(()=>{
-      dispatch(profileUpdate(token,toast))
-    })
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/update-profile`,
+        profileimage,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(() => {
+        dispatch(profileUpdate(token, toast));
+      });
   };
   const handleUploadImage = (e) => {
     setProfileImage(e.target.files[0]);
   };
-  const handleSound=()=>{
+  const handleProfileUpdadate = () => {
     try {
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/set-user-sound-preference`,payload,{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(()=>{
-        toast({
-          title: 'Sound Updated.',
-          status: 'success',
-          duration: 2000,
-          isClosable: true,
-        })
-        setSound(initSound);
-      })
+      axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/api/user/update-profile`,
+          info,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          dispatch(profileUpdate(token, toast));
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const setProfileInfo = (e) => {
+    const { name, value } = e.target;
+    const temp = { ...info };
+    temp[name] = value;
+    setInfo(temp);
+  };
+  const handleSound = () => {
+    try {
+      axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/api/user/set-user-sound-preference`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          toast({
+            title: "Sound Updated.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+          setSound(initSound);
+        });
     } catch (error) {
       toast({
-        title: 'Error in Update',
-        status: 'error',
+        title: "Error in Update",
+        status: "error",
         duration: 2000,
         isClosable: true,
-      })
+      });
     }
-  }
+  };
   useEffect(() => {
-    if (profileImage!=="") {
-        let data = new FormData();
-        data.append("doc", profileImage, profileImage.name);
-        upateProfileImage(data)
+    if (profileImage !== "") {
+      let data = new FormData();
+      data.append("doc", profileImage, profileImage.name);
+      upateProfileImage(data);
     }
   }, [profileImage]);
+
+  useEffect(() => {
+    
+    initSound.forEach(({ name, key, active }, i) => {
+      if (user[key] !== "") {
+        handlePref(i);
+      }
+    });
+  },[]);
   return (
     <Nav>
-      <Box pl={["0px","10px","10px","30px"]} pr={"10px"}>
+      <Box pl={["0px", "10px", "10px", "30px"]} pr={"10px"}>
         <Flex
-        direction={["column","column","column","row","row"]}
+          direction={["column", "column", "column", "row", "row"]}
           mb={"40px"}
           p={"20px"}
           bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
           borderRadius={"15px"}
           justifyContent={"space-between"}
         >
-          <Flex gap={"20px"} pt={"40px"} direction={["column","column","column","row","row"]}>
+          <Flex
+            gap={"20px"}
+            pt={"40px"}
+            direction={["column", "column", "column", "row", "row"]}
+          >
             <Flex direction={"column"} gap={"10px"}>
               <Center>
-              <label htmlFor="imageUpload">
-                <Input
-                  type="file"
-                  hidden
-                  name="imageUpload"
-                  id="imageUpload"
-                  onChange={(e) => handleUploadImage(e)}
-                  accept=".jpg, .jpeg, .png"
-                />
-                <Image h={"150px"} w={"150px"} src={user.profileImage} />
+                <label htmlFor="imageUpload">
+                  <Input
+                    type="file"
+                    hidden
+                    name="imageUpload"
+                    id="imageUpload"
+                    onChange={(e) => handleUploadImage(e)}
+                    accept=".jpg, .jpeg, .png"
+                  />
+                  <Image h={"150px"} w={"150px"} src={user.profileImage} />
                 </label>
               </Center>
               <Center>
                 <Box>
-              
-                <Text>Click Photo for Change</Text>
+                  <Text>Click Photo for Change</Text>
                 </Box>
               </Center>
             </Flex>
@@ -206,7 +257,7 @@ const DJProfile = () => {
             </Flex>
           </Flex>
           <Box
-            p={["10px","10px","10px","10px 50px"]}
+            p={["10px", "10px", "10px", "10px 50px"]}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             boxShadow={
@@ -222,9 +273,9 @@ const DJProfile = () => {
               @USERNAME
             </Text>
             <Button
-              p={["","0px 40px"]}
+              p={["", "0px 40px"]}
               mb={"10px"}
-              fontSize={["10px","14px","18px","20px"]}
+              fontSize={["10px", "14px", "18px", "20px"]}
               bgColor={"#0086FF"}
               color={"white"}
             >
@@ -233,31 +284,35 @@ const DJProfile = () => {
           </Box>
         </Flex>
         <Flex
-        direction={["column","column","column","row","row"]}
+          direction={["column", "column", "column", "row", "row"]}
           justifyContent={"space-between"}
           textAlign={"left"}
           color={theme === "light" ? "black" : "white"}
           gap={"20px"}
         >
           <Flex
-          direction={"column"}
-            w={["100%","100%","100%","100%","35%"]}
+            direction={"column"}
+            w={["100%", "100%", "100%", "100%", "35%"]}
             p={"20px"}
             borderRadius={"15px"}
             bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
-            pr={["10px","10px","10px","100px"]}
+            pr={["10px", "10px", "10px", "100px"]}
           >
             <Text fontSize={"24px"} fontWeight={"600"} mb={"7px"}>
               Besic Information
             </Text>
             <Text mb={"7px"}>User Name</Text>
             <Input
+              name="djName"
+              onChange={(e) => setProfileInfo(e)}
+              defaultValue={info.djName}
               mb={"7px"}
               bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
               color={"#787878"}
             />
             <Text mb={"7px"}>Personal Bio</Text>
             <Textarea
+              defaultValue={info.djBio}
               resize={"none"}
               h={"150px"}
               mb={"7px"}
@@ -265,13 +320,14 @@ const DJProfile = () => {
               color={"#787878"}
             />
             <Button
-             w={["auto","auto","auto","200px"]}
+              w={["auto", "auto", "auto", "200px"]}
               variant={"unstyled"}
               p={"0px 20px"}
-              fontSize={["10px","14px","18px","20px"]}
+              fontSize={["10px", "14px", "18px", "20px"]}
               borderRadius={"15px"}
               bgColor={"#0086FF"}
               color={"white"}
+              onClick={handleProfileUpdadate}
             >
               Confirm Update
             </Button>
@@ -279,7 +335,7 @@ const DJProfile = () => {
           <Flex
             direction={"column"}
             justifyContent={"space-between"}
-            w={["100%","100%","100%","100%","55%"]}
+            w={["100%", "100%", "100%", "100%", "55%"]}
             p={"20px"}
             borderRadius={"15px"}
             bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
@@ -334,20 +390,33 @@ const DJProfile = () => {
           </Flex>
         </Flex>
         <Flex
-        direction={["column","column","column","row","row"]}
+          direction={["column", "column", "column", "row", "row"]}
           justifyContent={"space-between"}
           mt={"30px"}
           color={theme === "light" ? "black" : "white"}
         >
-          <Box w={["100%","100%","100%","40%","40%"]}>
+          <Box w={["100%", "100%", "100%", "40%", "40%"]}>
             <Flex justifyContent={"space-between"}>
               <Center>
-              <Text fontSize={["13px","20px","25px","27px","30px"]}>Subscription</Text></Center>
+                <Text fontSize={["13px", "20px", "25px", "27px", "30px"]}>
+                  Subscription
+                </Text>
+              </Center>
               <Center>
-                <Text fontSize={["13px","13px","15px","17px","20px"]} color={"#0086FF"}>Upgrade</Text>
+                <Text
+                  fontSize={["13px", "13px", "15px", "17px", "20px"]}
+                  color={"#0086FF"}
+                >
+                  Upgrade
+                </Text>
               </Center>
             </Flex>
-            <Flex mt={"30px"} gap={"20px"}justifyContent={"space-between"} direction={["column","row","row","row","row"]}>
+            <Flex
+              mt={"30px"}
+              gap={"20px"}
+              justifyContent={"space-between"}
+              direction={["column", "row", "row", "row", "row"]}
+            >
               <Box
                 border={"2px solid #0086FF"}
                 bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
@@ -386,40 +455,55 @@ const DJProfile = () => {
               </Box>
             </Flex>
           </Box>
-          <Box w={["100%","100%","100%","55%","55%"]}>
+          <Box w={["100%", "100%", "100%", "55%", "55%"]}>
             <Flex justifyContent={"space-between"}>
               <Center>
-              <Text fontSize={["13px","20px","25px","27px","30px"]}>Payment Methods</Text></Center>
+                <Text fontSize={["13px", "20px", "25px", "27px", "30px"]}>
+                  Payment Methods
+                </Text>
+              </Center>
               <Center>
-                <Text fontSize={["13px","13px","15px","17px","20px"]} color={"#0086FF"}>Add New</Text>
+                <Text
+                  fontSize={["13px", "13px", "15px", "17px", "20px"]}
+                  color={"#0086FF"}
+                >
+                  Add New
+                </Text>
               </Center>
             </Flex>
             <Flex
-            p={"14px 0px"}
+              p={"14px 0px"}
               direction={"column"}
               bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
               mt={"30px"}
               borderRadius={"15px"}
             >
               <Center>
-              <Flex gap={"20px"} direction={["column","column","column","row","row"]}>
-                <Center>
-                  <Image h={"50px"} src={master} />
-                </Center>
-                <Center>
-                  <Text fontSize={"24px"}>**** **** **** 2431</Text>
-                </Center>
-              </Flex>
+                <Flex
+                  gap={"20px"}
+                  direction={["column", "column", "column", "row", "row"]}
+                >
+                  <Center>
+                    <Image h={"50px"} src={master} />
+                  </Center>
+                  <Center>
+                    <Text fontSize={"24px"}>**** **** **** 2431</Text>
+                  </Center>
+                </Flex>
               </Center>
               <Center>
-              <Flex mt={"30px"} gap={"20px"} direction={["column","column","column","row","row"]}>
-                <Center>
-                  <Image h={"20px"} src={visa} />
-                </Center>
-                <Center>
-                  <Text fontSize={"24px"}>**** **** **** 2431</Text>
-                </Center>
-              </Flex>
+                <Flex
+                  mt={"30px"}
+                  gap={"20px"}
+                  direction={["column", "column", "column", "row", "row"]}
+                >
+                  <Center>
+                    <Image h={"20px"} src={visa} />
+                  </Center>
+                  <Center>
+                    <Text fontSize={"24px"}>**** **** **** 2431</Text>
+                  </Center>
+                </Flex>
               </Center>
             </Flex>
           </Box>

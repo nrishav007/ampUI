@@ -31,159 +31,159 @@ import { CgSmileMouthOpen } from "react-icons/cg";
 const UserHome = () => {
   const djEvennts = [
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
   ];
   const dj = [
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },
     {
-      name: "rishav",
+      name: "John Doe",
       description:
         "Internal Compass Music is excited to present to you a diverse roster of international artists we deep believe in as musicians, educators and people alike.",
     },

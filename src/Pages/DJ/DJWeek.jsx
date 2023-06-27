@@ -12,6 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import djweek from "../../Assets/djweek.png"
 import axios from "axios";
 const DJWeek = () => {
   const theme = useSelector((store) => store.app.theme);
@@ -173,6 +174,9 @@ const DJWeek = () => {
               >
                 Gigs
               </Text>
+            </Center>
+            <Center>
+            <Image src={djweek} />
             </Center>
             <Box mt={"20px"}></Box>
             <Flex
