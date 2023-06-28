@@ -147,8 +147,8 @@ const UserSingleDJ = () => {
     const temp = book.filter((el) => el.date == fullDate);
     if (temp.length > 0) {
       calendarDays.push(
-        <Td key={day}>
-          <Image
+        <Td key={day} minW={"100px"}>
+          <Image h={"40px"} w={"100px"}
             src={
               "https://images.pexels.com/photos/625644/pexels-photo-625644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             }
