@@ -24,9 +24,9 @@ const DJReviews = () => {
     },[])
   return (
     <Nav>
-        {rate.map(({ feedback, rating, userId }) => {
+        {rate.map(({ feedback, rating, userId },i) => {
                 return (
-                  <Box m={"10px"} mb={"20px"} borderRadius={"10px"} p={"20px"} boxShadow={"rgba(0, 0, 0, 0.35) 0px 5px 15px"}>
+                  <Box key={i} m={"10px"} mb={"20px"} borderRadius={"10px"} p={"20px"} boxShadow={"rgba(0, 0, 0, 0.35) 0px 5px 15px"}>
                     <Flex
                       gap={"10px"}
                       direction={["column", "row", "row", "row"]}

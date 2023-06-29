@@ -34,7 +34,7 @@ import {
 import { BiCommentDetail } from "react-icons/bi";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import profile from "../../Assets/profile.png";
+import mount from "../../Assets/mount.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   bookingDate,
@@ -146,27 +146,35 @@ const UserSingleDJ = () => {
     let fullDate = `${date}/${month}/${year}`;
     const temp = book.filter((el) => el.date == fullDate);
     if (temp.length > 0) {
+      const fullnewDate = new Date(currentYear, currentMonth, day);
       calendarDays.push(
-        <Td key={day} minW={"100px"}>
-          <Image h={"40px"} w={"100px"}
-            src={
-              "https://images.pexels.com/photos/625644/pexels-photo-625644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }
-          />
+        <Td key={day} style={{ padding: "0.5rem"}}>
+          <Box
+            w={"60px"}
+            h={"40px"}
+            backgroundImage={mount}
+            backgroundSize={"cover"}
+            backgroundRepeat={"no-repeat"}
+            backgroundPosition={"center"}
+            borderRadius={"10px"}
+          >
+            <Center pt="9px">{day}</Center>
+          </Box>
         </Td>
       );
     } else {
       const fullnewDate = new Date(currentYear, currentMonth, day);
       calendarDays.push(
-        <Td
+        <Td style={{ padding: "0.5rem"}}
           cursor={fullnewDate <= fullCurrentDate ? "not-allowed" : "pointer"}
           onClick={() =>
             handleBookFromCalender(day, currentMonth + 1, currentYear)
           }
           key={day}
         >
-          <Box color={fullnewDate <= fullCurrentDate ? "gray" : null}>
-            {day}
+          <Box w={"60px"} 
+            h={"40px"} bgColor={"gray.300"} borderRadius={"10px"} color={fullnewDate <= fullCurrentDate ? "gray" : null}p={"0px 20px"}>
+            <Center pt="9px">{day}</Center>
           </Box>
         </Td>
       );
@@ -393,11 +401,12 @@ const UserSingleDJ = () => {
               gap={"10px"}
               direction={["column", "row", "row", "row"]}
             >
-              {genre.map((elem) => {
+              {genre.map((elem,i) => {
                 let name = elem;
                 if (dj[name] !== "") {
                   return (
                     <Box
+                    key={i}
                       bgColor={"#63D471"}
                       color={"white"}
                       p={"5px 10px"}
@@ -478,7 +487,7 @@ const UserSingleDJ = () => {
               </Flex>
               <Box p={"10px"}>
                 <Box width="100%" maxWidth="600px" margin="0 auto">
-                  <Table variant={"unstyled"}>
+                  <Table variant={"unstyled"} style={{ borderCollapse: "collapse" }}>
                     <Thead>
                       <Tr>{weekdays}</Tr>
                     </Thead>
@@ -494,9 +503,9 @@ const UserSingleDJ = () => {
               >
                 Ratings
               </Text>
-              {rate.map(({ feedback, rating, userId }) => {
+              {rate.map(({ feedback, rating, userId },i) => {
                 return (
-                  <Box mt={"10px"} mb={"20px"}>
+                  <Box key={i} mt={"10px"} mb={"20px"}>
                     <Flex
                       gap={"10px"}
                       direction={["column", "row", "row", "row"]}

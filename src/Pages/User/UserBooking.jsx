@@ -342,13 +342,14 @@ const UserBooking = () => {
                 </Thead>
                 <Tbody>
                   {filterData?.length > 0 &&
-                    filterData?.map((el) => {
+                    filterData?.map((el,i) => {
                       return (
-                        <Tr mt={"30px"} borderBottom={"0.5px solid #787878"}>
+                        <Tr key={i} mt={"30px"} borderBottom={"0.5px solid #787878"}>
                           <Td>
                             <Image
                               borderRadius={"15px"}
                               h={"50px"}
+                              w={"70px"}
                               src={el.djId.profileImage}
                             />
                           </Td>

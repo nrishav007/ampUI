@@ -408,10 +408,10 @@ const UserDjs = () => {
                               fontSize={"12px"}
                               direction={["column", "row", "row", "row", "row"]}
                             >
-                              {genre.map((elem) => {
+                              {genre.map((elem,i) => {
                                 let name = elem;
                                 if (el[name] !== "") {
-                                  return <Text>{el[name]}</Text>;
+                                  return <Text key={i}>{el[name]}</Text>;
                                 }
                               })}
                             </Flex>

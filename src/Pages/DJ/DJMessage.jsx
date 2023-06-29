@@ -100,10 +100,10 @@ const DJMessage = () => {
       <Flex>
         <Box w={"30%"} borderRight={"1px solid #787878"} p={"20px"} h={window.innerHeight+150}>
           <Flex direction={"column"}>
-            {dms.map((el) => {
+            {dms.map((el,i) => {
               let data = el._id[0];
               return (
-                <Flex
+                <Flex key={i}
                   gap={"5px"}
                   direction={["column", "column", "column", "row"]}
                   cursor={"pointer"}
@@ -176,10 +176,10 @@ const DJMessage = () => {
                                 display: "none",
                               },
                             }}>
-                {chat.map((ele) => {
+                {chat.map((ele,i) => {
                   if (ele.userType === "user") {
                     return (
-                      <Flex
+                      <Flex key={i}
                         ml={"10px"}
                         gap={"10px"}
                         mb={"10px"}

@@ -27,13 +27,13 @@ import axios from "axios";
 const UserDJBook = () => {
   const theme = useSelector((store) => store.app.theme);
   const token = useSelector((store) => store.auth.token);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const toast = useToast();
   const { id } = useParams();
   const date = useSelector((store) => store.app.date);
   const [bookData, setBookData] = useState({
     djId: id,
-    date: date||"",
+    date: date || "",
     time: "",
     event: "",
     eventDuration: "",
@@ -51,17 +51,21 @@ const UserDJBook = () => {
   const submit = () => {
     try {
       axios
-        .post(`${process.env.REACT_APP_BACKEND_URL}/api/booking/create-booking`, bookData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .post(
+          `${process.env.REACT_APP_BACKEND_URL}/api/booking/create-booking`,
+          bookData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then(() => {
           onOpen();
           setTimeout(() => {
             onClose();
             toast({
-              title: 'Booking Successful',
+              title: "Booking Successful",
               status: "success",
               duration: 3000,
               isClosable: true,
@@ -70,7 +74,7 @@ const UserDJBook = () => {
           }, 2000);
         });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   return (
@@ -117,7 +121,7 @@ const UserDJBook = () => {
       >
         <Image src={userBook} />
         <SimpleGrid
-          p={["", "", "0px 100px", "0px 200px"]}
+          p={["", "", "0px 100px", "0px 150px"]}
           mt={"20px"}
           columns={[1, 1, 2, 2]}
           gap={["20px", "20px", "20px", "60px"]}
@@ -126,11 +130,15 @@ const UserDJBook = () => {
             onChange={(e) => handleInput(e)}
             name="event"
             border={"none"}
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             placeholder={"Event Title"}
           />
           <Input
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             onChange={(e) => handleInput(e)}
             name="eventDuration"
             border={"none"}
@@ -139,15 +147,18 @@ const UserDJBook = () => {
             placeholder={"Event Duration (hr)"}
           />
           <Input
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             onChange={(e) => handleInput(e)}
             name="time"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             placeholder="Time (9:30 PM)"
-          >
-          </Input>
+          ></Input>
           <Input
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             onChange={(e) => handleInput(e)}
             name="date"
             defaultValue={bookData.date}
@@ -157,32 +168,35 @@ const UserDJBook = () => {
             placeholder={"Dates (20/02/2022)"}
           />
           <Input
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             onChange={(e) => handleInput(e)}
             name="location"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             placeholder="Location/ Venue (Brooklyn)"
-          >
-          </Input>
+          ></Input>
           <Input
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             onChange={(e) => handleInput(e)}
             name="listEquipments"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             placeholder="List Equipments"
-          >
-          </Input>
+          ></Input>
           <Input
+            h={["30px", "30px", "30px", "60px"]}
+            fontSize={["14px", "16px", "18px", "20px"]}
             onChange={(e) => handleInput(e)}
             name="additionalEquipments"
             border={"none"}
             bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}
             borderRadius={"15px"}
             placeholder="Additional Equipment"
-          >
-          </Input>
+          ></Input>
         </SimpleGrid>
         <Center mt={"30px"}>
           <Button

@@ -240,9 +240,9 @@ const UserHome = () => {
               </Flex>
             </Flex>
             <Box mt={"30px"}>
-              {dj.map((el) => {
+              {dj.map((el,i) => {
                 return (
-                  <Box
+                  <Box key={i}
                     mb={"30px"}
                     p={"10px"}
                     borderRadius={"15px"}
@@ -375,9 +375,9 @@ const UserHome = () => {
                     </Text>
                   </Flex>
                 </Flex>
-                {djEvennts.map((el) => {
+                {djEvennts.map((el,i) => {
                   return (
-                    <Flex m={"10px 0px"} gap={"10px"}>
+                    <Flex key={i} m={"10px 0px"} gap={"10px"}>
                       <Image h={"50px"} src={profile} />
                       <Flex direction={"column"}>
                         <Text>{el.name}</Text>
@@ -411,9 +411,9 @@ const UserHome = () => {
                     </Box>
                   </Center>
                 </Flex>
-                {djEvennts.map((el) => {
+                {djEvennts.map((el,i) => {
                   return (
-                    <Flex direction={"column"} m={"20px 0px"} gap={"20px"}>
+                    <Flex key={i} direction={"column"} m={"20px 0px"} gap={"20px"}>
                       <Flex gap={"10px"}>
                         <Image h={"50px"} src={profile} />
                         <Flex direction={"column"}>
@@ -437,9 +437,9 @@ const UserHome = () => {
             <Flex direction={"column"}>
               <Box p={"10px"} borderBottom={"1px solid #B9B9B9"}>
                 <Text>Favourite Dj's</Text>
-                {dj.map((el) => {
+                {dj.map((el,i) => {
                   return (
-                    <Flex m={"10px 0px"} justifyContent={"space-between"}>
+                    <Flex key={i} m={"10px 0px"} justifyContent={"space-between"}>
                       <Flex
                         gap={"10px"}
                         direction={["column", "column", "row", "column", "row"]}
@@ -467,9 +467,9 @@ const UserHome = () => {
               </Box>
               <Box p={"10px"}>
                 <Text>Dj's you may know</Text>
-                {dj.map((el) => {
+                {dj.map((el,i) => {
                   return (
-                    <Flex m={"10px 0px"} justifyContent={"space-between"}>
+                    <Flex key={i} m={"10px 0px"} justifyContent={"space-between"}>
                       <Flex gap={"10px"}>
                         <Image h={"50px"} src={profile} />
                         <Center>

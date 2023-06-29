@@ -354,7 +354,7 @@ const DJProfile = () => {
             >
               {sound.map(({ name, active }, i) => {
                 return (
-                  <Box
+                  <Box key={i}
                     p={"10px 0px"}
                     boxShadow={"0px 0px 15px rgba(58, 58, 58, 0.1)"}
                     cursor={"pointer"}

@@ -165,9 +165,9 @@ const UserFavourite = () => {
         
       >
         <Box m={"0px 30px"}borderRadius={"15px"} textAlign={"left"} color={theme==="light"?"black":"white"} mt={"10px"}p={["10px 5%","10px 10%","10px 15%","10px 25%"]}bgColor={theme === "light" ? "#F6F6F6" : "#111823"}>
-          {dj.map((el) => {
+          {dj.map((el,i) => {
             return (
-              <Box
+              <Box key={i}
                 mb={"30px"}
                 p={"10px"}
                 

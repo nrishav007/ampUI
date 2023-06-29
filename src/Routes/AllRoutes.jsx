@@ -5,13 +5,13 @@ import RegView from '../Pages/RegView'
 import DJ from './DJ';
 import PrivateRoute from './PrivateRoute';
 import User from './User';
-// import LandingPage from '../Pages/LandingPage';
+import LandingPage from '../Pages/LandingPage';
 
 
 const AllRoutes = () => {
   return (
     <Routes>
-      {/* <Route path="/" element={<LandingPage/>} /> */}
+      <Route path="/" element={<LandingPage/>} />
         <Route path="/register" element={<RegView/>} />
         <Route path="/login" element={<LoginView />} />
         <Route path="/dj/*" element={<PrivateRoute><DJ /></PrivateRoute>} />

@@ -108,10 +108,10 @@ const UserMessage = () => {
           zIndex={"0"}
         >
           <Flex direction={"column"} gap={"10px"}>
-            {dms.map((el) => {
+            {dms.map((el,i) => {
               let data = el._id[0];
               return (
-                <Flex
+                <Flex key={i}
                   gap={"5px"}
                   direction={["column", "column", "column", "row"]}
                   cursor={"pointer"}
@@ -202,10 +202,10 @@ const UserMessage = () => {
                     },
                   }}
                 >
-                  {chat.map((ele) => {
+                  {chat.map((ele,i) => {
                     if (ele.userType === "dj") {
                       return (
-                        <Flex
+                        <Flex key={i}
                           ml={"10px"}
                           gap={"10px"}
                           mb={"10px"}

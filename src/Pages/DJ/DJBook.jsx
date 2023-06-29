@@ -239,10 +239,10 @@ const DJBook = () => {
                 <Thead bgColor={theme === "light" ? "#E0E0E0" : "#181D29"}>
                   <Tr>
                     <Th>Profile</Th>
-                    <Th>Name</Th>
+                    <Th>Event</Th>
                     <Th>Location</Th>
                     <Th>Date</Th>
-                    <Th>Genre</Th>
+                    <Th>Time</Th>
                     <Th>
                       <Center>Status</Center>
                     </Th>
@@ -250,19 +250,19 @@ const DJBook = () => {
                 </Thead>
                 <Tbody>
                   {filterData?.length > 0 &&
-                    filterData?.map((el) => {
+                    filterData?.map((el,i) => {
                       return (
-                        <Tr mt={"30px"} borderBottom={"0.5px solid #787878"}>
+                        <Tr key={i} mt={"30px"} borderBottom={"0.5px solid #787878"}>
                           <Td>
                             <Image
                               borderRadius={"15px"}
                               src={el.bookUserId.profileImage}
                             />
                           </Td>
-                          <Td>{el.name || "empty"}</Td>
+                          <Td>{el.event}</Td>
                           <Td>{el.location}</Td>
                           <Td>{el.date}</Td>
-                          <Td>{el.genre || "empty"}</Td>
+                          <Td>{el.time}</Td>
                           <Td>
                             <Center>
                               <Text

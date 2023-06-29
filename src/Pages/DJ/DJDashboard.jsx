@@ -336,9 +336,9 @@ const DJDashboard = () => {
               fontWeight={"500"}
               fontSize={["10px", "14px", "15px", "20px"]}
             >
-              {orders.map(({ name, price }) => {
+              {orders.map(({ name, price },i) => {
                 return (
-                  <Flex
+                  <Flex key={i}
                   textAlign={"left"}
                   direction={["column","row","row","row"]}
                     justifyContent={"space-between"}

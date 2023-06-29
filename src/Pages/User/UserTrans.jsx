@@ -144,9 +144,9 @@ const UserTrans = () => {
             <Box>Status</Box>
         </SimpleGrid>
         {
-            trans.map((el)=>{
+            trans.map((el,i)=>{
                 return(
-                    <SimpleGrid p={"10px 0px"}gap={["10px","10px","10px","0px"]} columns={[1,2,2,4]} color={theme==="light"?"black":"white"} borderBottom={"1px solid #787878"}>
+                    <SimpleGrid key={i} p={"10px 0px"}gap={["10px","10px","10px","0px"]} columns={[1,2,2,4]} color={theme==="light"?"black":"white"} borderBottom={"1px solid #787878"}>
                         <Box textAlign={["center","center","center","left"]} ml={"10px"}>{el.event}</Box>
                         <Box>{el.djname}</Box>
                         <Box>{el.date}</Box>

@@ -149,10 +149,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <Flex h={window.innerHeight-100} justifyContent={"space-between"} direction={"column"}>
         <Box>
           {LinkItems.map((link) => (
-            <Link to={link.url}>
+            <Link to={link.url} key={link.name}>
               <Box
                 minH={"50px"}
-                key={link.name}
+                
                 p={"7px 0px"}
                 fontSize={"16px"}
                 w={"100%"}

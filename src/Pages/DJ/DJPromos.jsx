@@ -36,9 +36,9 @@ const DJPromos = () => {
           ml={"100px"}
           mr={"100px"}
         >
-          {data.map((el) => {
+          {data.map((el,i) => {
             return (
-              <Box
+              <Box key={i}
                 bgColor={theme === "light" ? "#F6F6F6" : "#111823"}
                 p={"30px"}
                 borderRadius={"15px"}
@@ -97,9 +97,10 @@ const DJPromos = () => {
                   {el.description}
                 </Text>
                 <Flex gap={"10px"} mt={"20px"} direction={["column","column","row","row",]}>
-                  {el.genre.map((elem) => {
+                  {el.genre.map((elem,i) => {
                     return (
                       <Box
+                      key={i}
                         borderRadius={"18px"}
                         color={"white"}
                         bgColor={theme==="light"?"#6D6D6D":"#343E57"}
